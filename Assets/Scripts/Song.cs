@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Level : MonoBehaviour
+[CreateAssetMenu(fileName = "NewSong", menuName = "SHREDEMPTION/Song", order = 1)]
+public class Song : ScriptableObject
 {
-    private Riff[] riffs;
+    [SerializeField] private Riff[] riffs;
     private float startTime;
     private int startBeat;
 
@@ -25,5 +26,10 @@ public class Level : MonoBehaviour
         }
 
         return result;
+    }
+
+    public Riff[] GetRiffs()
+    {
+        return riffs;
     }
 }
