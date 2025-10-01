@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.Windows.WebCam.VideoCapture;
 
 public class CombatManager : MonoBehaviour
@@ -33,8 +35,15 @@ public class CombatManager : MonoBehaviour
     private Note[] notesToMatch;
     private List<InputState> inputs = new();
 
+    // Input
+    InputSystem_Actions inputActions;
+
     private void Start()
     {
+        inputActions = new InputSystem_Actions();
+        inputActions.Enable();
+        inputActions.Player.Move.performed += OnMove;
+
         if (!songs.Any())
         {
             Debug.LogError("CombatManager.songs is empty!");
@@ -53,16 +62,15 @@ public class CombatManager : MonoBehaviour
 
         if (BeatManager.Instance.beat % 8  == 0 && !bEnemyIsPlaying)
         {
-            Debug.Log("8 beats have passed...");
-
+            CheckRiffSuccess();
             EnemysTurn();
         }
-
-        PlayersTurn();
     }
 
     private void EnemysTurn()
     {
+        Debug.Log("Enemy's Turn.");
+
         bIsPlayersTurn = false;
         bEnemyIsPlaying = true;
 
@@ -89,7 +97,7 @@ public class CombatManager : MonoBehaviour
         }
 
         StartCoroutine(PlayRiff(currentRiff));
-        currentRiffIndex++;
+        //currentRiffIndex++;
     }
 
     private IEnumerator PlayRiff(Riff riff)
@@ -104,44 +112,76 @@ public class CombatManager : MonoBehaviour
         bEnemyIsPlaying = false;
         if (inputs.Any()) inputs.Clear();
         bIsPlayersTurn = true;
+        Debug.Log("Player's Turn.");
     }
 
-    private void PlayersTurn()
+    void OnMove(InputAction.CallbackContext context)
     {
+        //Debug.Log("OnMove : input detected.");
+
         if (!bIsPlayersTurn) return;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        Vector2 inputVector = context.ReadValue<Vector2>();
+
+        if (inputVector.x < 0)
         {
             inputs.Add(InputState.InputState_Left);
+            Debug.Log("Left");
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (inputVector.x > 0)
         {
             inputs.Add(InputState.InputState_Right);
+            Debug.Log("Right");
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (inputVector.y != 0)
         {
             inputs.Add(InputState.InputState_Up);
+            Debug.Log("Middle");
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+    }
+
+    private void CheckRiffSuccess()
+    {
+        Debug.Log("CheckRiffSuccess()");
+
+        if (!inputs.Any())
         {
-            inputs.Add(InputState.InputState_Up);
+            Debug.Log("CheckRiffSuccess()::No input found!");
+            return;
         }
 
-        if (!inputs.Any()) return;
+        if (currentRiff.CheckSuccess() == true)
+        {
+            Debug.Log("CheckRiffSuccess()::Riff already marked as completed.");
+        }
+
+        Debug.Log("CheckRiffSuccess()::Inputs found, and riff not yet completed.");
 
         // Kontrollera om sekvensen av inputs överensstämmer med noterna som ska spelas
         // Noterna markeras automatiskt som avklarade om de stämmer
         for (int i = 0; i < notesToMatch.Length; i++)
         {
+            if (!inputs.Any())
+            {
+                Debug.Log("CheckRiffSuccess()::No input found!");
+                return;
+            }
+
             if (!notesToMatch[i].CompareInput(inputs[i]))
             {
+                Debug.Log("CheckRiffSuccess()::Wrong input found!");
                 inputs.Clear();
                 return;
             }
 
             // Riff avklarat! Spela upp coolt ljud
             // TO-DO: LÄGG TILL EN BOOL SÅ ATT MAN BARA KLARAR RIFFET EN GÅNG
-            Debug.Log("CombatManager::PlayersTurn() : Riff played successfully!");
+            Debug.Log("CheckRiffSuccess()::NOTE PLAYED SUCCESSFULLY!");
+        }
+
+        if (currentRiff.CheckSuccess())
+        {
+            Debug.Log("CheckRiffSuccess()::RIFF PLAYED SUCCESSFULLY!!!");
         }
     }
 }
