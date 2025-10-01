@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public enum InputState
 {
     InputState_None,
@@ -35,6 +34,20 @@ public class AudioState
 
 public class SoundHandler : MonoBehaviour
 {
+    // Singleton pattern
+    public static SoundHandler Instance;
+    private void Awake()
+    {
+        if (SoundHandler.Instance != null && SoundHandler.Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            SoundHandler.Instance = this;
+        }
+    } // End of Singleton pattern
+
     [SerializeField] private AudioClip[] audioClips;
     private bool bShouldPlay = false;
     private AudioState audioState;
@@ -113,5 +126,10 @@ public class SoundHandler : MonoBehaviour
             ;
 
         }
+    }
+
+    public InputState GetInputState()
+    {
+        return audioState.GetInputState();
     }
 }
