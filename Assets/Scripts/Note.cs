@@ -5,7 +5,6 @@ using UnityEngine;
 public class Note : ScriptableObject
 {
     [SerializeField] private InputState direction;
-    private float time;
     private bool bSuccess = false;
 
     public bool CompareInput(InputState input)
@@ -27,5 +26,10 @@ public class Note : ScriptableObject
     public InputState GetDirection()
     {
         return direction;
+    }
+
+    public void Reset()
+    {
+        bSuccess = false;
     }
 }

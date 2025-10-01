@@ -33,6 +33,7 @@ public class BeatManager : MonoBehaviour
     {
         while (true)
         {
+            CombatManager.Instance.OnBeat();
             currentAudioClip = audioClips[Random.Range(0, audioClips.Length)];
             audioSource.PlayOneShot(currentAudioClip);
             yield return new WaitForSeconds(currentAudioClip.length);
