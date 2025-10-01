@@ -1,8 +1,10 @@
+using System.IO.Enumeration;
 using UnityEngine;
 
-public class Note : MonoBehaviour
+[CreateAssetMenu(fileName = "NewNote", menuName = "SHREDEMPTION/Note", order = 1)]
+public class Note : ScriptableObject
 {
-    private InputState direction;
+    [SerializeField] private InputState direction;
     private float time;
     private bool bSuccess = false;
 

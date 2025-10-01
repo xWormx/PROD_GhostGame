@@ -63,8 +63,9 @@ public class SoundHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        this.bShouldPlay = Input.anyKeyDown;
+
+        //this.bShouldPlay = Input.anyKeyDown;
+        this.bShouldPlay = false;
         
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -99,6 +100,7 @@ public class SoundHandler : MonoBehaviour
                     break;
                 case InputState.InputState_Left:
                     {
+                        audioSrc.volume = 1f;
                         audioSrc.panStereo = -1.0f;
                         audioSrc.PlayOneShot(audioClips[randomIndex], 1.0f);
                     }
@@ -106,18 +108,21 @@ public class SoundHandler : MonoBehaviour
 
                 case InputState.InputState_Right:
                     {
+                        audioSrc.volume = 1f;
                         audioSrc.panStereo = 1.0f;
                         audioSrc.PlayOneShot(audioClips[randomIndex], 1.0f);
                     }
                     break;
                 case InputState.InputState_Up:
                     {
+                        audioSrc.volume = 0.5f;
                         audioSrc.panStereo = 0.0f;
                         audioSrc.PlayOneShot(audioClips[randomIndex], 0.8f);
                     }
                     break;
                 case InputState.InputState_Down: // Only for testing sounds behind.
                     {
+                        audioSrc.volume = 0.5f;
                         audioSrc.panStereo = 0.0f;
                         audioSrc.PlayOneShot(audioClips[randomIndex], 0.5f);
                     }
@@ -131,5 +136,30 @@ public class SoundHandler : MonoBehaviour
     public InputState GetInputState()
     {
         return audioState.GetInputState();
+    }
+
+    public void SetAudioState(InputState direction)
+    {
+        switch(direction)
+        {
+            case InputState.InputState_Left:
+                {
+                    audioSrc.volume = 1f;
+                    audioSrc.panStereo = -1.0f;
+                    break;
+                }
+            case InputState.InputState_Right:
+                {
+                    audioSrc.volume = 1f;
+                    audioSrc.panStereo = 1.0f;
+                    break;
+                }
+            case InputState.InputState_Up:
+                {
+                    audioSrc.volume = 0.5f;
+                    audioSrc.panStereo = 0f;
+                    break;
+                }
+        }
     }
 }

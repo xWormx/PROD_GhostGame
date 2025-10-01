@@ -15,10 +15,10 @@ public class BeatManager : MonoBehaviour
         {
             BeatManager.Instance = this;
         }
-    } // End of Singleton pattern
+    }
+    // End of Singleton pattern
 
     public int beat = 1;
-
     [SerializeField] private AudioClip[] audioClips;
     private AudioClip currentAudioClip;
     private AudioSource audioSource;

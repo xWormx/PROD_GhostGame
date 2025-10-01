@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Riff : MonoBehaviour
+[CreateAssetMenu(fileName = "NewRiff", menuName = "SHREDEMPTION/Riff", order = 1)]
+public class Riff : ScriptableObject
 {
-    private Note[] notes;
+    [SerializeField] private Note[] notes;
 
     public bool CheckSuccess()
     {
@@ -17,5 +18,10 @@ public class Riff : MonoBehaviour
         }
 
         return result;
+    }
+
+    public Note[] GetNotes()
+    {
+        return notes;
     }
 }
