@@ -23,4 +23,9 @@ public class Note : ScriptableObject
     {
         return bSuccess;
     }
+
+    public InputState GetDirection()
+    {
+        return direction;
+    }
 }

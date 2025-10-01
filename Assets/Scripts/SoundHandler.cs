@@ -162,4 +162,10 @@ public class SoundHandler : MonoBehaviour
                 }
         }
     }
+
+    public void PlayRandomAudioClip()
+    {
+        int randomIndex = Random.Range(0, audioClips.Length);
+        audioSrc.PlayOneShot(audioClips[randomIndex]);
+    }
 }
