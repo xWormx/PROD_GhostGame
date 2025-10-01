@@ -19,6 +19,7 @@ public class BeatManager : MonoBehaviour
     // End of Singleton pattern
 
     public int beat = 1;
+    private bool looping = true;
     [SerializeField] private AudioClip[] audioClips;
     private AudioClip currentAudioClip;
     private AudioSource audioSource;
@@ -31,7 +32,7 @@ public class BeatManager : MonoBehaviour
 
     private IEnumerator LoopAudioClips()
     {
-        while (true)
+        while (looping)
         {
             CombatManager.Instance.OnBeat();
             currentAudioClip = audioClips[Random.Range(0, audioClips.Length)];
@@ -39,5 +40,10 @@ public class BeatManager : MonoBehaviour
             yield return new WaitForSeconds(currentAudioClip.length);
             beat++;
         }
+    }
+
+    public void Stop()
+    {
+        looping = false;
     }
 }

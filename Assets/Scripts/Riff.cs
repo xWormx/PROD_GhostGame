@@ -4,32 +4,34 @@ using UnityEngine;
 public class Riff : ScriptableObject
 {
     [SerializeField] private Note[] notes;
+    private int currentNoteIndex = 0;
+
+    public bool CompareInput(InputState input)
+    {
+        if (currentNoteIndex >= notes.Length)
+            return false;
+
+        if (notes[currentNoteIndex].CompareInput(input))
+        {
+            currentNoteIndex++;
+            return true;
+        }
+
+        return false;
+    }
 
     public bool CheckSuccess()
     {
-        bool result = true;
+        return currentNoteIndex >= notes.Length;
+    }
 
-        foreach (Note note in notes)
-        {
-            if (note.GetSuccess() == false)
-            {
-                result = false;
-            }
-        }
-
-        return result;
+    public void Reset()
+    {
+        currentNoteIndex = 0;
     }
 
     public Note[] GetNotes()
     {
         return notes;
-    }
-
-    public void Reset()
-    {
-        foreach (Note note in notes)
-        {
-            note.Reset();
-        }
     }
 }

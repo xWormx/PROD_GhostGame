@@ -1,13 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using Unity.VisualScripting.InputSystem;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal.Internal;
-using static UnityEngine.Windows.WebCam.VideoCapture;
 
 public class CombatManager : MonoBehaviour
 {
@@ -26,25 +20,36 @@ public class CombatManager : MonoBehaviour
     }
     // End of Singleton pattern
 
-    private const int beatsPerTurn = 8;
-
+    // Cache
     private AudioSource audioSource;
+    [SerializeField] private AudioClip noteHitSound;
     [SerializeField] private AudioClip successSound;
+    [SerializeField] private AudioClip failSound;
+
+    // Songs and riffs
     [SerializeField] private Song[] songs;
     private int currentSongIndex = 0;
     private Song currentSong;
     private Riff[] currentSongRiffs;
     private int currentRiffIndex = 0;
     private Riff currentRiff;
+
+    // Turn-based combat
+    private const int beatsPerTurn = 8;
+    private int beatCounter = 0;
+    private const int enemyWaitTime = 2;
+    private int enemyWaitCounter = 0;
     private bool bEnemyIsPlaying = false;
     private bool bIsPlayersTurn = false;
-    private Note[] notesToMatch;
     private List<InputState> inputs = new();
-    private int lastHandledBeat = -1;
     private int enemyNotesPlayed = 0;
+    private int turn = 0;
+    private bool bAlreadyFailed = false;
+    private bool bAllSongsBeaten = false;
 
     // Input
     InputSystem_Actions inputActions;
+    private bool bCanPlay = false;
 
     private void Start()
     {
@@ -65,17 +70,102 @@ public class CombatManager : MonoBehaviour
         currentSongRiffs = currentSong.GetRiffs();
         currentRiff = currentSongRiffs[currentRiffIndex];
         currentRiff.Reset();
-        notesToMatch = currentRiff.GetNotes();
+    }
+
+    public void OnBeat()
+    {
+        if (!songs.Any() || bAllSongsBeaten) return;
+
+        if (BeatManager.Instance.beat == 3) // First attack to get the ball rolling
+        {
+            EnemysTurn();
+        }
+
+        if (bIsPlayersTurn)
+        {
+            beatCounter++;
+            if (beatCounter > beatsPerTurn)
+            {
+                beatCounter = 0;
+                EnemysTurn();
+            }
+        }
+
+        if (!bEnemyIsPlaying) return;
+
+        // Enemy's turn
+
+        enemyWaitCounter++;
+
+        if (enemyWaitCounter <= enemyWaitTime) return;
+
+        if (enemyNotesPlayed < currentRiff.GetNotes().Length)
+        {
+            //Debug.Log("Enemy played Note at Beat #" + BeatManager.Instance.beat);
+            InputState noteDirection = currentRiff.GetNotes()[enemyNotesPlayed].GetDirection();
+
+            SoundHandler.Instance.SetAudioState(noteDirection);
+            SoundHandler.Instance.PlayRandomAudioClip();
+            enemyNotesPlayed++;
+
+            switch(noteDirection)
+            {
+                case InputState.InputState_Left:
+                    {
+                        Debug.Log("Enemy attack: Left");
+                        break;
+                    }
+                case InputState.InputState_Right:
+                    {
+                        Debug.Log("Enemy attack: Right");
+                        break;
+                    }
+                case InputState.InputState_Up:
+                    {
+                        Debug.Log("Enemy attack: Middle");
+                        break;
+                    }
+            }
+        }
+
+        if (enemyNotesPlayed >= currentRiff.GetNotes().Length)
+        {
+            PlayersTurn();
+        }
     }
 
     private void EnemysTurn()
     {
-        Debug.Log("Enemy's Turn.");
+        //Debug.Log("Enemy's Turn.");
 
+        ConsoleUtility.Instance.ClearConsole();
+
+        if (turn > 0 && !bAlreadyFailed && !currentRiff.CheckSuccess())
+        {
+            audioSource.PlayOneShot(failSound);
+            inputs.Clear();
+            currentRiff.Reset();
+        }
+
+        turn++;
+        bCanPlay = false;
+        enemyWaitCounter = 0;
+        inputs.Clear();
         bIsPlayersTurn = false;
         bEnemyIsPlaying = true;
+    }
 
-        SelectNextRiff();
+    private void PlayersTurn()
+    {
+        //Debug.Log("Player's Turn.");
+
+        bCanPlay = true;
+        bAlreadyFailed = false;
+        enemyNotesPlayed = 0;
+        bEnemyIsPlaying = false;
+        inputs.Clear();
+        bIsPlayersTurn = true;
+        beatCounter = 0;
     }
 
     private void SelectNextRiff()
@@ -86,7 +176,9 @@ public class CombatManager : MonoBehaviour
 
             if (currentSongIndex >= songs.Length)
             {
-                // All songs won at this point
+                //Debug.Log("WINNER!!! ALL SONGS BEATEN!!!");
+                bAllSongsBeaten = true;
+                BeatManager.Instance.Stop();
             }
             else
             {
@@ -104,115 +196,61 @@ public class CombatManager : MonoBehaviour
             // Select next riff
             currentRiff = currentSongRiffs[currentRiffIndex];
             currentRiff.Reset();
-            notesToMatch = currentRiff.GetNotes();
         }
     }
 
-    void OnMove(InputAction.CallbackContext context)
+    void OnMove(InputAction.CallbackContext context) // Read input
     {
         //Debug.Log("OnMove : input detected.");
 
-        if (!bIsPlayersTurn) return;
+        if (!bIsPlayersTurn || !bCanPlay) return;
 
         Vector2 inputVector = context.ReadValue<Vector2>();
 
         if (inputVector.x < 0)
         {
+            Debug.Log("Player input: Left");
             inputs.Add(InputState.InputState_Left);
-            Debug.Log("Left");
+            CompareLatestInput(InputState.InputState_Left);
         }
         else if (inputVector.x > 0)
         {
+            Debug.Log("Player input: Right");
             inputs.Add(InputState.InputState_Right);
-            Debug.Log("Right");
+            CompareLatestInput(InputState.InputState_Right);
         }
         else if (inputVector.y != 0)
         {
+            Debug.Log("Player input: Middle");
             inputs.Add(InputState.InputState_Up);
-            Debug.Log("Middle");
-        }
-
-        if (CheckRiffSuccess() == true)
-        {
-            bIsPlayersTurn = false;
+            CompareLatestInput(InputState.InputState_Up);
         }
     }
 
-    private bool CheckRiffSuccess()
+    private void CompareLatestInput(InputState input)
     {
-        //Debug.Log("CheckRiffSuccess()");
-
-        if (!inputs.Any())
+        if (!currentRiff.CompareInput(input))
         {
-            //Debug.Log("CheckRiffSuccess()::No input found!");
-            return false;
+            audioSource.PlayOneShot(failSound);
+            inputs.Clear();
+            currentRiff.Reset();
+            bCanPlay = false;
+            bAlreadyFailed = true;
+            return;
         }
 
-        if (currentRiff.CheckSuccess() == true)
-        {
-            //Debug.Log("CheckRiffSuccess()::Riff already marked as completed.");
-            return false;
-        }
-
-        //Debug.Log("CheckRiffSuccess()::Inputs found, and riff not yet completed.");
-
-        // Kontrollera om sekvensen av inputs överensstämmer med noterna som ska spelas
-        // Noterna markeras automatiskt som avklarade om de stämmer
-        for (int i = 0; i < notesToMatch.Length; i++)
-        {
-            if (notesToMatch.Length != inputs.Count)
-            {
-                //Debug.Log("CheckRiffSuccess()::Couldn't find all needed inputs.");
-                return false;
-            }
-
-            if (!notesToMatch[i].CompareInput(inputs[i]))
-            {
-                //Debug.Log("CheckRiffSuccess()::Wrong input found!");
-                inputs.Clear();
-                return false;
-            }
-        }
+        audioSource.PlayOneShot(noteHitSound);
 
         if (currentRiff.CheckSuccess())
         {
-            Debug.Log("CheckRiffSuccess()::RIFF PLAYED SUCCESSFULLY!!!");
+            //Debug.Log("RIFF PLAYED SUCCESSFULLY!!!");
             audioSource.PlayOneShot(successSound);
+
+            turn = 0;
             currentRiffIndex++;
-            return true;
-        }
-
-        return false;
-    }
-
-    public void OnBeat()
-    {
-        if (!songs.Any()) return;
-
-        int currentBeat = BeatManager.Instance.beat;
-
-        if (currentBeat != 1 && currentBeat % beatsPerTurn == 1 && !bEnemyIsPlaying && currentBeat != lastHandledBeat)
-        {
-            lastHandledBeat = currentBeat;
+            SelectNextRiff();
             EnemysTurn();
         }
-
-        if (!bEnemyIsPlaying) return;
-
-        if (enemyNotesPlayed < notesToMatch.Length)
-        {
-            SoundHandler.Instance.SetAudioState(notesToMatch[enemyNotesPlayed].GetDirection());
-            SoundHandler.Instance.PlayRandomAudioClip();
-            enemyNotesPlayed++;
-        }
-        
-        if (enemyNotesPlayed >= notesToMatch.Length)
-        {
-            enemyNotesPlayed = 0;
-            bEnemyIsPlaying = false;
-            if (inputs.Any()) inputs.Clear();
-            bIsPlayersTurn = true;
-            Debug.Log("Player's Turn.");
-        }
     }
+
 }
