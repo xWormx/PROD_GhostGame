@@ -149,6 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1a4df948168d94fa970c1567a293e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playersTurnSound: {fileID: 8300000, guid: 24525b0090a8d2f44beed8ea9a9e9861, type: 3}
+  enemysTurnSound: {fileID: 8300000, guid: ea30b367ee909964892c980c4c97b212, type: 3}
   noteHitSound: {fileID: 8300000, guid: 5bde56e7c39ee2043a5e9fb66e6c1a22, type: 3}
   successSound: {fileID: 8300000, guid: 8fae745e12afcba4b8ef1efae8233630, type: 3}
   failSound: {fileID: 8300000, guid: 738c7fa5b5e475345a18b243e3d6d825, type: 3}

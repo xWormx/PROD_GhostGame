@@ -22,6 +22,8 @@ public class CombatManager : MonoBehaviour
 
     // Cache
     private AudioSource audioSource;
+    [SerializeField] private AudioClip playersTurnSound;
+    [SerializeField] private AudioClip enemysTurnSound;
     [SerializeField] private AudioClip noteHitSound;
     [SerializeField] private AudioClip successSound;
     [SerializeField] private AudioClip failSound;
@@ -83,6 +85,8 @@ public class CombatManager : MonoBehaviour
 
         if (bIsPlayersTurn)
         {
+            if (beatCounter == 0) audioSource.PlayOneShot(playersTurnSound);
+
             beatCounter++;
             if (beatCounter > beatsPerTurn)
             {
@@ -94,8 +98,9 @@ public class CombatManager : MonoBehaviour
         if (!bEnemyIsPlaying) return;
 
         // Enemy's turn
-
+        if (enemyWaitCounter == 1) audioSource.PlayOneShot(enemysTurnSound);
         enemyWaitCounter++;
+
 
         if (enemyWaitCounter <= enemyWaitTime) return;
 
@@ -236,6 +241,7 @@ public class CombatManager : MonoBehaviour
             currentRiff.Reset();
             bCanPlay = false;
             bAlreadyFailed = true;
+            EnemysTurn();
             return;
         }
 

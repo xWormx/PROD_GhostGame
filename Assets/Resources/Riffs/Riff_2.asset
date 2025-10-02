@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Riff_2
   m_EditorClassIdentifier: 
   notes:
-  - {fileID: 11400000, guid: ef489044aee8b2b43b4cbbe09a1c3169, type: 2}
-  - {fileID: 11400000, guid: ef489044aee8b2b43b4cbbe09a1c3169, type: 2}
-  - {fileID: 11400000, guid: ef489044aee8b2b43b4cbbe09a1c3169, type: 2}
+  - {fileID: 11400000, guid: 1b8a6d73343d67e479d0584a98b70046, type: 2}
