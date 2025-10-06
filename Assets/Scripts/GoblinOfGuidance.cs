@@ -1,0 +1,70 @@
+using UnityEngine;
+
+public class GoblinOfGuidance : MonoBehaviour
+{
+    // Singleton pattern
+    public static GoblinOfGuidance Instance;
+    private void Awake()
+    {
+        if (GoblinOfGuidance.Instance != null && GoblinOfGuidance.Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            GoblinOfGuidance.Instance = this;
+        }
+    }
+    // End of Singleton pattern
+
+    // Cache
+    private AudioSource audioSource;
+
+    // Variables
+    private KeyCode[] excludedKeys = { KeyCode.LeftArrow, KeyCode.UpArrow, KeyCode.RightArrow, KeyCode.DownArrow, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
+
+    [SerializeField] private AudioClip[] audioClips;
+    private int index = 0;
+
+    [SerializeField] private AudioClip pressLeft;
+    [SerializeField] private AudioClip pressRight;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    if (System.Array.Exists(excludedKeys, k => k == key))
+                    {
+                        return;
+                    }
+
+                    RepeatLastAudioClip();
+                    return;
+                }
+            }
+        }
+    }
+
+    private void RepeatLastAudioClip()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(audioClips[index]);
+    }
+
+    public void PlayNextAudioClip()
+    {
+        audioSource.PlayOneShot(audioClips[index]);
+        index++;
+    }
+
+
+}
