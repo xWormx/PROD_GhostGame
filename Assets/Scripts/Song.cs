@@ -32,4 +32,12 @@ public class Song : ScriptableObject
     {
         return riffs;
     }
+
+    public void Reset()
+    {
+        foreach (Riff riff in riffs)
+        {
+            riff.Reset();
+        }
+    }
 }

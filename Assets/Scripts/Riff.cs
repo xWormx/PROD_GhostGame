@@ -24,4 +24,12 @@ public class Riff : ScriptableObject
     {
         return notes;
     }
+
+    public void Reset()
+    {
+        foreach (Note note in notes)
+        {
+            note.Reset();
+        }
+    }
 }
