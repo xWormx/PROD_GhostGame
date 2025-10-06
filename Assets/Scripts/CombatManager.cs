@@ -72,11 +72,27 @@ public class CombatManager : MonoBehaviour
         currentSongRiffs = currentSong.GetRiffs();
         currentRiff = currentSongRiffs[currentRiffIndex];
         currentRiff.Reset();
+
+        Invoke("StartCombat", 2f);
+    }
+
+    public void StartCombat()
+    {
+        ResetCombat();
+        bInCombat = true;
+        BeatManager.Instance.Run();
+    }
+
+    public void EndCombat()
+    {
+        bInCombat = false;
+        BeatManager.Instance.Stop();
+        SoundHandler.Instance.SetActiveRandomMelody();
     }
 
     public void OnBeat()
     {
-        if (!songs.Any() || bAllSongsBeaten) return;
+        if (!bInCombat || !songs.Any() || bAllSongsBeaten) return;
 
         if (BeatManager.Instance.beat == 3) // First attack to get the ball rolling
         {
@@ -100,13 +116,6 @@ public class CombatManager : MonoBehaviour
         // Enemy's turn
         // TODO (Calle): Här vill vi sätta vilken melodi som ska spelas förutsatt
         //               att en combat inte är slut
-        if (!bInCombat)
-        {
-            bInCombat = true;
-            SoundHandler.Instance.SetActiveRandomMelody();
-        }
-         
-
         if (enemyWaitCounter == 1) audioSource.PlayOneShot(enemysTurnSound);
         enemyWaitCounter++;
 
@@ -126,7 +135,7 @@ public class CombatManager : MonoBehaviour
             //SoundHandler.Instance.PlayRandomAudioClip();
             enemyNotesPlayed++;
 
-            switch(noteDirection)
+            switch (noteDirection)
             {
                 case InputState.InputState_Left:
                     {
@@ -188,19 +197,18 @@ public class CombatManager : MonoBehaviour
 
     private void SelectNextRiff()
     {
-        if (currentRiffIndex >= currentSongRiffs.Length)
+        if (currentRiffIndex >= currentSongRiffs.Length) // Out of riffs for current song, combat end
         {
+            EndCombat();
             currentSongIndex++;
 
             if (currentSongIndex >= songs.Length)
             {
                 //Debug.Log("WINNER!!! ALL SONGS BEATEN!!!");
                 bAllSongsBeaten = true;
-                BeatManager.Instance.Stop();
             }
-            else
+            else // Select next song
             {
-                // Select next song
                 currentSong = songs[currentSongIndex];
                 currentSong.Reset();
                 currentSongRiffs = currentSong.GetRiffs();
@@ -272,4 +280,16 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    private void ResetCombat()
+    {
+        beatCounter = 0;
+        enemyWaitCounter = 0;
+        enemyNotesPlayed = 0;
+        turn = 0;
+        bAlreadyFailed = false;
+        bIsPlayersTurn = false;
+        bEnemyIsPlaying = false;
+        bCanPlay = false;
+        inputs.Clear();
+    }
 }

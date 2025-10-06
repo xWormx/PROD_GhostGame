@@ -27,7 +27,6 @@ public class BeatManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(LoopAudioClips());
     }
 
     private IEnumerator LoopAudioClips()
@@ -45,5 +44,12 @@ public class BeatManager : MonoBehaviour
     public void Stop()
     {
         looping = false;
+        beat = 1;
+    }
+
+    public void Run()
+    {
+        looping = true;
+        StartCoroutine(LoopAudioClips());
     }
 }
