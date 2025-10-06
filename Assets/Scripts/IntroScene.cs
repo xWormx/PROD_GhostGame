@@ -15,6 +15,8 @@ using System.Collections;
 /// </summary>
 public class SceneMusicSequencer : MonoBehaviour
 {
+    private static SceneMusicSequencer persistantInstance;
+
     [Header("When to run")]
     [Tooltip("IntroScene")]
     [SerializeField] private string targetSceneName = "";
@@ -23,6 +25,7 @@ public class SceneMusicSequencer : MonoBehaviour
     [SerializeField] private AudioClip introClip;           // First clip
     [SerializeField] private AudioClip crossfadeToClip;     // Second clip (crossfaded in)
     [SerializeField] private AudioClip finalLoopClip;       // Third clip (loops)
+    [SerializeField] private AudioClip buttonPressFeedback;       // Third clip (loops)
 
     [Header("Levels & Timing")]
     [Tooltip("Master volume for all sources (0–1).")]
@@ -47,6 +50,7 @@ public class SceneMusicSequencer : MonoBehaviour
     private AudioSource _a; // current/first
     private AudioSource _b; // next/second
 
+    
     private bool _started;
     private bool _canProceed;      // becomes true after intro end OR fallback time
     private bool _sceneLoading;    // prevent double loads
@@ -57,13 +61,13 @@ public class SceneMusicSequencer : MonoBehaviour
         _a = gameObject.AddComponent<AudioSource>();
         _b = gameObject.AddComponent<AudioSource>();
 
-        foreach (var src in new[] { _a, _b })
-        {
-            src.playOnAwake = false;
-            src.loop = false;
-            src.volume = 0f;
-            src.spatialBlend = 0f; // 2D
-        }
+       foreach (var src in new[] { _a, _b })
+       {
+           src.playOnAwake = false;
+           src.loop = false;
+           src.volume = 0f;
+           src.spatialBlend = 0f; // 2D
+       }
 
         if (string.IsNullOrEmpty(targetSceneName))
         {
@@ -126,6 +130,14 @@ public class SceneMusicSequencer : MonoBehaviour
         {
             LoadNextSceneImmediate();
         }
+    }
+
+
+    private IEnumerator PlayFeedbackAndChangeScene()
+    {
+        AudioSource.PlayClipAtPoint(buttonPressFeedback, Camera.main.transform.position);
+        yield return new WaitForSeconds(buttonPressFeedback.length);
+        SceneManager.LoadScene(nextSceneName);
     }
 
     private IEnumerator PlaySequence()
@@ -213,16 +225,20 @@ public class SceneMusicSequencer : MonoBehaviour
 
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            StartCoroutine(PlayFeedbackAndChangeScene());
         }
         else if (useNextBuildIndexIfNameEmpty)
         {
             int current = SceneManager.GetActiveScene().buildIndex;
             int next = current + 1;
             if (next < SceneManager.sceneCountInBuildSettings)
+            {
                 SceneManager.LoadScene(next);
+            }
             else
+            {
                 Debug.LogWarning("SceneMusicSequencer: Next build index is out of range.");
+            }
         }
         else
         {
