@@ -29,6 +29,8 @@ public class GoblinOfGuidance : MonoBehaviour
     [SerializeField] private AudioClip pressLeft;
     [SerializeField] private AudioClip pressRight;
 
+    private bool isActive = false;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -36,6 +38,11 @@ public class GoblinOfGuidance : MonoBehaviour
 
     void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
+
         if (Input.anyKeyDown)
         {
             foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
@@ -64,6 +71,11 @@ public class GoblinOfGuidance : MonoBehaviour
     {
         audioSource.PlayOneShot(audioClips[index]);
         index++;
+
+        if (!isActive)
+        {
+            isActive = true;
+        }
     }
 
 
