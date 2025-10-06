@@ -29,6 +29,8 @@ public class GoblinOfGuidance : MonoBehaviour
     [SerializeField] private AudioClip pressLeft;
     [SerializeField] private AudioClip pressRight;
 
+    private bool hasPlayedFinalClip = false;
+
     private bool isActive = false;
 
     void Start()
@@ -63,14 +65,24 @@ public class GoblinOfGuidance : MonoBehaviour
 
     private void RepeatLastAudioClip()
     {
+        int repeatIndex = index;
+
+        if (repeatIndex >= audioClips.Length || hasPlayedFinalClip)
+        {
+            repeatIndex = audioClips.Length - 1;
+        }
+
         audioSource.Stop();
-        audioSource.PlayOneShot(audioClips[index]);
+        audioSource.PlayOneShot(audioClips[repeatIndex]);
     }
 
     public void PlayNextAudioClip()
     {
+        if (index >= audioClips.Length || hasPlayedFinalClip) return;
+
         audioSource.PlayOneShot(audioClips[index]);
         index++;
+        hasPlayedFinalClip = index >= audioClips.Length;
 
         if (!isActive)
         {
@@ -78,5 +90,18 @@ public class GoblinOfGuidance : MonoBehaviour
         }
     }
 
+    public bool CheckIfPlaying()
+    {
+        return audioSource.isPlaying;
+    }
 
+    public void PlayPressLeft()
+    {
+        audioSource.PlayOneShot(pressLeft);
+    }
+
+    public void PlayPressRight()
+    {
+        audioSource.PlayOneShot(pressRight);
+    }
 }

@@ -1158,7 +1158,6 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: 3cea00943404abc4f8454a21f198827a, type: 3}
   - {fileID: 8300000, guid: e48d30752f0c0654e8747c173286ee09, type: 3}
-  - {fileID: 8300000, guid: 6a0ebcbc8e8b320408d815ce99b1dad6, type: 3}
   pressLeft: {fileID: 8300000, guid: 7cea9766fa97d3a40a737e6128681b28, type: 3}
   pressRight: {fileID: 8300000, guid: 6d260fcc80046544dac5e840fecf02e6, type: 3}
 --- !u!4 &1983566892

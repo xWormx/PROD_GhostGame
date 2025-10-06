@@ -38,7 +38,7 @@ public class CombatManager : MonoBehaviour
 
     // Turn-based combat
     private const int beatsPerTurn = 8;
-    private int beatCounter = 0;
+    private int playerBeatCounter = 0;
     private const int enemyWaitTime = 2;
     private int enemyWaitCounter = 0;
     private bool bEnemyIsPlaying = false;
@@ -49,9 +49,15 @@ public class CombatManager : MonoBehaviour
     private bool bAlreadyFailed = false;
     private bool bAllSongsBeaten = false;
     private bool bInCombat;
+    private int internalBeatCounter = 0;
+    private InputState enemyJustPlayed = InputState.InputState_None;
+
     // Input
     InputSystem_Actions inputActions;
     private bool bCanPlay = false;
+
+    // Tutorial
+    private bool bIsTutorialLevel = true;
 
     private void Start()
     {
@@ -81,10 +87,16 @@ public class CombatManager : MonoBehaviour
         ResetCombat();
         bInCombat = true;
         BeatManager.Instance.Run();
+
+        if (bIsTutorialLevel)
+        {
+            GoblinOfGuidance.Instance.PlayNextAudioClip();
+        }
     }
 
     public void EndCombat()
     {
+        ResetCombat();
         bInCombat = false;
         BeatManager.Instance.Stop();
         SoundHandler.Instance.SetActiveRandomMelody();
@@ -92,21 +104,45 @@ public class CombatManager : MonoBehaviour
 
     public void OnBeat()
     {
-        if (!bInCombat || !songs.Any() || bAllSongsBeaten) return;
+        if (!bInCombat || !songs.Any() || bAllSongsBeaten || GoblinOfGuidance.Instance.CheckIfPlaying()) return;
 
-        if (BeatManager.Instance.beat == 3) // First attack to get the ball rolling
+        if (!GoblinOfGuidance.Instance.CheckIfPlaying() && bIsTutorialLevel && BeatManager.Instance.beat > 1)
+        {
+            GoblinOfGuidance.Instance.PlayNextAudioClip();
+        }
+
+        internalBeatCounter++;
+
+        if (internalBeatCounter == 3) // First attack to get the ball rolling
         {
             EnemysTurn();
         }
 
         if (bIsPlayersTurn)
         {
-            if (beatCounter == 0) audioSource.PlayOneShot(playersTurnSound);
+            if (playerBeatCounter == 0) audioSource.PlayOneShot(playersTurnSound);
 
-            beatCounter++;
-            if (beatCounter > beatsPerTurn)
+            if (bIsTutorialLevel && currentRiffIndex < 2 && playerBeatCounter == 2)
             {
-                beatCounter = 0;
+                switch(enemyJustPlayed)
+                {
+                    case InputState.InputState_Left:
+                        {
+                            GoblinOfGuidance.Instance.PlayPressLeft();
+                            break;
+                        }
+                    case InputState.InputState_Right:
+                        {
+                            GoblinOfGuidance.Instance.PlayPressRight();
+                            break;
+                        }
+                }
+            }
+
+            playerBeatCounter++;
+            if (playerBeatCounter > beatsPerTurn)
+            {
+                playerBeatCounter = 0;
                 EnemysTurn();
             }
         }
@@ -140,16 +176,19 @@ public class CombatManager : MonoBehaviour
                 case InputState.InputState_Left:
                     {
                         Debug.Log("Enemy attack: Left");
+                        enemyJustPlayed = InputState.InputState_Left;
                         break;
                     }
                 case InputState.InputState_Right:
                     {
                         Debug.Log("Enemy attack: Right");
+                        enemyJustPlayed = InputState.InputState_Right;
                         break;
                     }
                 case InputState.InputState_Up:
                     {
                         Debug.Log("Enemy attack: Middle");
+                        enemyJustPlayed = InputState.InputState_Up;
                         break;
                     }
             }
@@ -192,7 +231,7 @@ public class CombatManager : MonoBehaviour
         bEnemyIsPlaying = false;
         inputs.Clear();
         bIsPlayersTurn = true;
-        beatCounter = 0;
+        playerBeatCounter = 0;
     }
 
     private void SelectNextRiff()
@@ -200,6 +239,7 @@ public class CombatManager : MonoBehaviour
         if (currentRiffIndex >= currentSongRiffs.Length) // Out of riffs for current song, combat end
         {
             EndCombat();
+            bIsTutorialLevel = false;
             currentSongIndex++;
 
             if (currentSongIndex >= songs.Length)
@@ -282,7 +322,7 @@ public class CombatManager : MonoBehaviour
 
     private void ResetCombat()
     {
-        beatCounter = 0;
+        playerBeatCounter = 0;
         enemyWaitCounter = 0;
         enemyNotesPlayed = 0;
         turn = 0;
