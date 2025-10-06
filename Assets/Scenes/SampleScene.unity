@@ -698,15 +698,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b89acec8d465fa748b26c72da989ad88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: f4bdad1d4f8321b4da9fbdd95343fb6b, type: 3}
-  - {fileID: 8300000, guid: 3aed9d42de26d2745b4389d9bd394ec3, type: 3}
-  - {fileID: 8300000, guid: afeb15ba7a693b249b3e2a85c8b530dd, type: 3}
-  - {fileID: 8300000, guid: e2fd47e2f4317bf499cd8a0baf289c6e, type: 3}
-  - {fileID: 8300000, guid: e0e0723e9a1194c419aeb269be16ec6f, type: 3}
-  - {fileID: 8300000, guid: a62992a53da8917418bf8be80570b539, type: 3}
-  - {fileID: 8300000, guid: faf16df6954c60746ada41c0b5057f6e, type: 3}
-  - {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+  melodies:
+  - notes:
+    - {fileID: 8300000, guid: e2fd47e2f4317bf499cd8a0baf289c6e, type: 3}
+    - {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+    - {fileID: 8300000, guid: 3aed9d42de26d2745b4389d9bd394ec3, type: 3}
+    - {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+    - {fileID: 8300000, guid: e2fd47e2f4317bf499cd8a0baf289c6e, type: 3}
+    - {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+    - {fileID: 8300000, guid: 3aed9d42de26d2745b4389d9bd394ec3, type: 3}
+    - {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+    - {fileID: 8300000, guid: e2fd47e2f4317bf499cd8a0baf289c6e, type: 3}
+  currentMelody: 0
+  currentNote: 0
 --- !u!4 &545411894
 Transform:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public enum InputState
     InputState_Up,
     InputState_Down
 };
+
 public enum ToneType
 {
     ToneType_None,
@@ -32,6 +33,12 @@ public class AudioState
     public void SetToneType(ToneType toneType) {  this.toneType = toneType; }
 }
 
+[System.Serializable]
+public class Melody
+{
+    public AudioClip[] notes;
+};
+
 public class SoundHandler : MonoBehaviour
 {
     // Singleton pattern
@@ -48,7 +55,10 @@ public class SoundHandler : MonoBehaviour
         }
     } // End of Singleton pattern
 
-    [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private Melody[] melodies;
+    [SerializeField] private int currentMelody;
+    [SerializeField] private int currentNote;
+
     private bool bShouldPlay = false;
     private AudioState audioState;
     private AudioSource audioSrc;
@@ -90,7 +100,7 @@ public class SoundHandler : MonoBehaviour
 
         if (bShouldPlay)
         {
-            int randomIndex = Random.Range(0, audioClips.Length);
+            int randomIndex = Random.Range(0, melodies.Length);
             switch (audioState.GetInputState())
             {
                 case InputState.InputState_None:
@@ -102,7 +112,7 @@ public class SoundHandler : MonoBehaviour
                     {
                         audioSrc.volume = 1f;
                         audioSrc.panStereo = -1.0f;
-                        audioSrc.PlayOneShot(audioClips[randomIndex], 1.0f);
+                        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote], 1.0f);
                     }
                     break;
 
@@ -110,21 +120,21 @@ public class SoundHandler : MonoBehaviour
                     {
                         audioSrc.volume = 1f;
                         audioSrc.panStereo = 1.0f;
-                        audioSrc.PlayOneShot(audioClips[randomIndex], 1.0f);
+                        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote], 1.0f);
                     }
                     break;
                 case InputState.InputState_Up:
                     {
                         audioSrc.volume = 0.5f;
                         audioSrc.panStereo = 0.0f;
-                        audioSrc.PlayOneShot(audioClips[randomIndex], 0.8f);
+                        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote], 0.8f);
                     }
                     break;
                 case InputState.InputState_Down: // Only for testing sounds behind.
                     {
                         audioSrc.volume = 0.5f;
                         audioSrc.panStereo = 0.0f;
-                        audioSrc.PlayOneShot(audioClips[randomIndex], 0.5f);
+                        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote], 0.5f);
                     }
                     break;
             }
@@ -163,9 +173,27 @@ public class SoundHandler : MonoBehaviour
         }
     }
 
+    public void SetActiveRandomMelody()
+    {
+        currentMelody = Random.Range(0, melodies.Length);
+        // TODO (Calle): det ska vara random, men kör bara melodi '0' för test.
+        currentMelody = 0;
+        currentNote = 0;
+    }
+
+    public void PlayeNextNoteInActiveMelody()
+    {
+        audioSrc.PlayOneShot(melodies[0].notes[currentNote]);
+        currentNote++;
+        // NOTE (Calle): Detta är en safeguard för nu, ifall antal noter i meldin är mindre
+        //               än antalet inputs från combaten.
+        if(currentNote >= melodies[0].notes.Length) 
+            currentNote = 0;
+    }
+
     public void PlayRandomAudioClip()
     {
-        int randomIndex = Random.Range(0, audioClips.Length);
-        audioSrc.PlayOneShot(audioClips[randomIndex]);
+        int randomIndex = Random.Range(0, melodies.Length);
+        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote]);
     }
 }
