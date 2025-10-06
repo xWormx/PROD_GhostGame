@@ -48,7 +48,7 @@ public class CombatManager : MonoBehaviour
     private int turn = 0;
     private bool bAlreadyFailed = false;
     private bool bAllSongsBeaten = false;
-
+    private bool bInCombat;
     // Input
     InputSystem_Actions inputActions;
     private bool bCanPlay = false;
@@ -98,6 +98,15 @@ public class CombatManager : MonoBehaviour
         if (!bEnemyIsPlaying) return;
 
         // Enemy's turn
+        // TODO (Calle): Här vill vi sätta vilken melodi som ska spelas förutsatt
+        //               att en combat inte är slut
+        if (!bInCombat)
+        {
+            bInCombat = true;
+            SoundHandler.Instance.SetActiveRandomMelody();
+        }
+         
+
         if (enemyWaitCounter == 1) audioSource.PlayOneShot(enemysTurnSound);
         enemyWaitCounter++;
 
@@ -110,7 +119,11 @@ public class CombatManager : MonoBehaviour
             InputState noteDirection = currentRiff.GetNotes()[enemyNotesPlayed].GetDirection();
 
             SoundHandler.Instance.SetAudioState(noteDirection);
-            SoundHandler.Instance.PlayRandomAudioClip();
+            // TODO (Calle): Istället för att spela ett random audioClip vill vi spela upp nästa ton i 
+            //               nuvarande melodin.
+            SoundHandler.Instance.PlayeNextNoteInActiveMelody();
+
+            //SoundHandler.Instance.PlayRandomAudioClip();
             enemyNotesPlayed++;
 
             switch(noteDirection)

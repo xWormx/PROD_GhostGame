@@ -132,7 +132,6 @@ public class SceneMusicSequencer : MonoBehaviour
         }
     }
 
-
     private IEnumerator PlayFeedbackAndChangeScene()
     {
         AudioSource.PlayClipAtPoint(buttonPressFeedback, Camera.main.transform.position);
