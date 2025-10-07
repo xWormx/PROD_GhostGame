@@ -108,6 +108,13 @@ public class CombatManager : MonoBehaviour
 
         if (!GoblinOfGuidance.Instance.CheckIfPlaying() && bIsTutorialLevel && BeatManager.Instance.beat > 1)
         {
+            /*
+            if (GoblinOfGuidance.Instance.CheckHasPlayedFinalClip())
+            {
+                GoblinOfGuidance.Instance.PlayRepatMyselfVoiceLine();
+            }
+            */
+
             GoblinOfGuidance.Instance.PlayNextAudioClip();
         }
 

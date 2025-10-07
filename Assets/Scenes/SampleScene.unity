@@ -915,7 +915,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beat: 1
   audioClips:
-  - {fileID: 8300000, guid: cc29947c8bbf83b49ba629c4b204728e, type: 3}
+  - {fileID: 8300000, guid: 2749ff0de4114784399f8585d2a4c164, type: 3}
+  - {fileID: 8300000, guid: 9850efb7426029244a826d59628e33f9, type: 3}
 --- !u!4 &1009888403
 Transform:
   m_ObjectHideFlags: 0
@@ -1160,6 +1161,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e48d30752f0c0654e8747c173286ee09, type: 3}
   pressLeft: {fileID: 8300000, guid: 7cea9766fa97d3a40a737e6128681b28, type: 3}
   pressRight: {fileID: 8300000, guid: 6d260fcc80046544dac5e840fecf02e6, type: 3}
+  repeatMyself: {fileID: 8300000, guid: 668eddb6b06356a48bca737dd017a4e9, type: 3}
 --- !u!4 &1983566892
 Transform:
   m_ObjectHideFlags: 0

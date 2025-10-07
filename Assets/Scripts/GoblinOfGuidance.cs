@@ -28,6 +28,7 @@ public class GoblinOfGuidance : MonoBehaviour
 
     [SerializeField] private AudioClip pressLeft;
     [SerializeField] private AudioClip pressRight;
+    [SerializeField] private AudioClip repeatMyself;
 
     private bool hasPlayedFinalClip = false;
 
@@ -36,6 +37,7 @@ public class GoblinOfGuidance : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 1.5f;
     }
 
     void Update()
@@ -95,6 +97,11 @@ public class GoblinOfGuidance : MonoBehaviour
         return audioSource.isPlaying;
     }
 
+    public bool CheckHasPlayedFinalClip()
+    {
+        return hasPlayedFinalClip;
+    }
+
     public void PlayPressLeft()
     {
         audioSource.PlayOneShot(pressLeft);
@@ -103,5 +110,10 @@ public class GoblinOfGuidance : MonoBehaviour
     public void PlayPressRight()
     {
         audioSource.PlayOneShot(pressRight);
+    }
+
+    public void PlayRepatMyselfVoiceLine()
+    {
+        audioSource.PlayOneShot(repeatMyself);
     }
 }
