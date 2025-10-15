@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 public class ConsoleUtility : MonoBehaviour
 {
+    /*
     // Singleton pattern
     public static ConsoleUtility Instance;
     private void Awake()
@@ -29,4 +30,5 @@ public class ConsoleUtility : MonoBehaviour
         var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
         clearMethod.Invoke(null, null);
     }
+    */
 }
