@@ -211,7 +211,7 @@ public class CombatManager : MonoBehaviour
     {
         //Debug.Log("Enemy's Turn.");
 
-        //ConsoleUtility.Instance.ClearConsole();
+        ConsoleUtility.Instance.ClearConsole();
 
         if (turn > 0 && !bAlreadyFailed && !currentRiff.CheckSuccess())
         {

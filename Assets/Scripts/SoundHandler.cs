@@ -175,8 +175,9 @@ public class SoundHandler : MonoBehaviour
 
     public void SetActiveRandomMelody()
     {
-        currentMelody = Random.Range(0, melodies.Length);
+
         // TODO (Calle): det ska vara random, men kör bara melodi '0' för test.
+        //currentMelody = Random.Range(0, melodies.Length);
         currentMelody = 0;
         currentNote = 0;
     }
@@ -191,9 +192,9 @@ public class SoundHandler : MonoBehaviour
             currentNote = 0;
     }
 
-    public void PlayRandomAudioClip()
-    {
-        int randomIndex = Random.Range(0, melodies.Length);
-        audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote]);
-    }
+    //public void PlayRandomAudioClip()
+    //{
+    //    int randomIndex = Random.Range(0, melodies.Length);
+    //    audioSrc.PlayOneShot(melodies[currentMelody].notes[currentNote]);
+    //}
 }
