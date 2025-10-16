@@ -76,6 +76,34 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &-1849523020583740275
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FadeAtLevelChange
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: c1989b8e7dfddcf478dbc4862a1cee89
+  m_FloatValues:
+    2a1ab610351708a4a82db3a1411eb750: 0
+    90f152c1af82e314fab5896bb8f2a8fd: 9.5
+    3792a3821fd508343bf2416ae1e6559b: 23
+    f3197aa20f49bb84b952e1fd8ada5650: -63.099995
+    13097224c53471043979c5700e4eea89: 0
+    93e97764fbb1bd34fb784179786f216f: -38.79996
+    accb3a077cd9c7041bf08a6cca4035d2: -10000
+    5f139c07951d1834bb7f80f6924f0d9c: 0
+    8d6802b844752d04db705f8b61decffc: 0.1
+    4096651a96dfc264fb95ffa16fb3ca04: 0
+    4a56427aa12bdbe4e8346a3798887dff: 0
+    662c618af1741b64fba4fffe86944c93: 0.5
+    41dbf5fb201891d45ae0e1419b4301db: 1
+    cc0bf09e2d63bc64c9cb0d5ce9ba596f: 1
+    d82d6fae3ef99da4b85899dd0beb68da: 1
+    46b607afb95518740ac48c2ff8f3e485: -60.40684
+    307b3bafec248d14f9495da43c364fd3: -0.025776558
+  m_TransitionOverrides: {}
 --- !u!244 &-839790519034690806
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -101,6 +129,7 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
+  - {fileID: -1849523020583740275}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -116,7 +145,7 @@ AudioMixerController:
     - 4baba7bcca2a4c241a17eacd758015e1
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: -1849523020583740275}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -157,16 +186,16 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snapshot
+  m_Name: Main
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 21551b68ba80b1f4fa78a88c5d26a275
   m_FloatValues:
     2a1ab610351708a4a82db3a1411eb750: 0
     90f152c1af82e314fab5896bb8f2a8fd: 9.5
-    3792a3821fd508343bf2416ae1e6559b: 21
+    3792a3821fd508343bf2416ae1e6559b: 23
     f3197aa20f49bb84b952e1fd8ada5650: -63.099995
     13097224c53471043979c5700e4eea89: 0
-    93e97764fbb1bd34fb784179786f216f: -48.59984
+    93e97764fbb1bd34fb784179786f216f: -38.79996
     accb3a077cd9c7041bf08a6cca4035d2: -10000
     5f139c07951d1834bb7f80f6924f0d9c: 0
     8d6802b844752d04db705f8b61decffc: 0.1
