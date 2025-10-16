@@ -746,9 +746,10 @@ MonoBehaviour:
   introThemeWelcome: {fileID: 704287166}
   introThemeLoop: {fileID: 1080307369}
   buttonPressFeedback: {fileID: 1591255550}
+  snapShotFadeAtLevelChange: {fileID: -1849523020583740275, guid: e5876f5c8fab0974abbc59566055ab41, type: 2}
   startAfterSecondsPressAnyKey: 3
   repeatAfterSecondsPressAnyKey: 8
-  skipWelcomeIntro: 0
+  skipWelcomeIntro: 1
 --- !u!1 &1591255549
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,23 +1,24 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEditor.Actions;
+using UnityEngine.Rendering;
+using UnityEngine.Audio;
+
+/*
+ *  TODO (Calle):   1. gör två, en med vanlig och en med inställning när man tryckt på en knapp.
+ * 
+ * 
+ */
 
 public class IntroHandler : MonoBehaviour
 {
-
-    /*
-     *  1. Spela Introt fram till "SHREDEMPTION"
-     *  
-     *  2. Börja loopa introThemeLoop
-     *  
-     *  3. Efter en tid, spela upp pressAnyKey
-     *  
-     */
-
     [SerializeField] private AudioSource pressAnyKey;
     [SerializeField] private AudioSource introThemeWelcome;
     [SerializeField] private AudioSource introThemeLoop;
     [SerializeField] private AudioSource buttonPressFeedback;
+    
+    [SerializeField] private AudioMixerSnapshot snapShotFadeAtLevelChange;
 
     [SerializeField] private float startAfterSecondsPressAnyKey;
     [SerializeField] private float repeatAfterSecondsPressAnyKey;
@@ -26,6 +27,8 @@ public class IntroHandler : MonoBehaviour
 
     bool welcomeEnded  = false;
     bool changingScene = false;
+    bool pressAnyFuckingKeyPlayedOnce = false;
+    bool pressAnyFuckingKeyStarted = false;
 
     void Start()
     {
@@ -37,58 +40,90 @@ public class IntroHandler : MonoBehaviour
         {
             introThemeWelcome.Play();
         }
-            
     }
 
     void Update()
     {
-
-
-        // TODO (Calle): Skrive om IntroWelcomeHasEnded och welcomeEnded boolen så att det blir mindre tvetydgit.
-        //               kanske separera i mindr funktioner som säger om welcome spelar och welcome ended
-        if (IntroWelcomeHasEnded())
+        if ((IntroWelcomeClipStoppedPlaying() && IntroWelcomeEnded()))
         {
-            PlayIntroThemeLoop();
+            StartIntroThemeLoop();
             StartRepeatingPressAnyKey();
-
-   
+        }
+        else if(skipWelcomeIntro)
+        {
+            skipWelcomeIntro = false;
+            StartIntroThemeLoop();
+            StartRepeatingPressAnyKey();
         }
 
-        if(welcomeEnded && !changingScene)
+        if (IntroWelcomeEnded() && !ChangingScene() && PressAnyFuckingKeyClipPlayedOnce())
         {
             if (Input.anyKeyDown)
             {
                 StartCoroutine(PlayFeedBackAndChangeScene());
             }
         }
-   
     }
 
-    bool IntroWelcomeHasEnded()
+    bool IntroWelcomeClipStoppedPlaying()
     {
         bool result = false;
 
-        if ((!introThemeWelcome.isPlaying && !welcomeEnded) || skipWelcomeIntro)
+        if (welcomeEnded)
+            return result;
+
+        if(!introThemeWelcome.isPlaying)
         {
             result = true;
             welcomeEnded = true;
-            skipWelcomeIntro = false;
         }
         else
         {
             result = false;
         }
-
+        
         return result;
+    }
+
+    bool ChangingScene()
+    {
+        return changingScene;
+    }
+
+    bool IntroWelcomeEnded()
+    {
+        return welcomeEnded;
     }
 
     void PressAnyFuckingKeyClip()
     {
         pressAnyKey.Play();
+        pressAnyFuckingKeyStarted = true;
     }
 
-    void PlayIntroThemeLoop()
+    bool PressAnyFuckingKeyClipPlayedOnce()
     {
+        bool result = false;
+
+        if (!pressAnyFuckingKeyPlayedOnce && pressAnyFuckingKeyStarted)
+        {
+            if (!pressAnyKey.isPlaying)
+            {
+                result = true;
+                pressAnyFuckingKeyPlayedOnce = true;
+            }
+        }
+        else
+        {
+            result = true;
+        }
+
+            return result;
+    }
+
+    void StartIntroThemeLoop()
+    {
+        Debug.Log("Loop play");
         introThemeLoop.Play();
     }
 
@@ -100,6 +135,8 @@ public class IntroHandler : MonoBehaviour
 
     private IEnumerator PlayFeedBackAndChangeScene()
     {
+        pressAnyKey.Stop();
+        snapShotFadeAtLevelChange.TransitionTo(1.0f);
         changingScene = true;
         buttonPressFeedback.Play();
         yield return new WaitForSeconds(1.4f);
