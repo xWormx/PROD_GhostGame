@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/IntroScene.unity
     guid: feff7ed70c986a54a8f95e4c20643f8d
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/NavigationScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/BeatMachineLab.unity
