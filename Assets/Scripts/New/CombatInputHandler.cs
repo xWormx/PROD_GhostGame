@@ -93,18 +93,15 @@ public class CombatInputHandler : MonoBehaviour
             InputAccuracy hit = CombatEvaluator.Instance.CompareInput(enemyInputs[combatInputs.Count - 1], combatInputs[combatInputs.Count - 1], false);
             List<NewNote> enemyNotes = Enemy.Instance.GetCurrentSongNotes().notes;
 
-            switch(hit)
+            switch (hit)
             {
                 case InputAccuracy.Perfect:
-                    {
-                        audioSource.volume = 0.2f;
-                        audioSource.PlayOneShot(enemyNotes[combatInputs.Count - 1].audioClip);
-                        break;
-                    }
                 case InputAccuracy.Good:
                     {
-                        audioSource.volume = 0.2f;
-                        audioSource.PlayOneShot(enemyNotes[combatInputs.Count - 1].audioClip);
+                        audioSource.volume = 0.1f;
+                        AudioClip clip = enemyNotes[combatInputs.Count - 1].audioClip;
+                        audioSource.clip = clip;
+                        audioSource.PlayScheduled(AudioSettings.dspTime + 0.001);
                         break;
                     }
                 case InputAccuracy.Miss:
