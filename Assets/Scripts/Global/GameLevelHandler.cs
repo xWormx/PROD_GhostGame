@@ -36,17 +36,18 @@ public class GameLevelHandler : MonoBehaviour
     public void SetLevelState(LevelState state)
     {
         levelState = state;
+        Debug.Log($"LevelState = {state}");
 
         switch(levelState)
         {
             case LevelState.Navigation:
                 NavigationAudioHandler.Instance.SnapshotToNavigation();
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
                 break;
                 
             case LevelState.Combat:
                 NavigationAudioHandler.Instance.SnapshotToCombat();
-                SceneManager.LoadScene(2);
+                //SceneManager.LoadScene(2);
                 break;
 
             case LevelState.EndGame:

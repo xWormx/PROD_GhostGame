@@ -82,6 +82,11 @@ public class MovementHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameLevelHandler.Instance.GetLevelState() != LevelState.Navigation) // Joel: Combat och Navigation hanteras i samma scen
+        {
+            return;
+        }
+
         movementVector = new Vector3(0,0,0);
 
         if (Input.GetKey("p"))
@@ -210,11 +215,12 @@ public class MovementHandler : MonoBehaviour
             PlayRandomGruntClip();
         }
         
+        /* Joel: Gör detta m.m. i den nya EncounterBoundary-klassen
         if (other.gameObject.CompareTag("EncounterBoundry"))
         {
             GameLevelHandler.Instance.SetLevelState(LevelState.Combat);
         }
-
+        */
     }
 
     private void OnTriggerExit(Collider other)

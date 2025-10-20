@@ -44,7 +44,7 @@ public class NewCombatManager : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        RunCombat(0);
+        //RunCombat(0);
     }
 
     public void RunCombat(int level, float startingBPM = 100.0f, float winBPM = 200.0f, float loseBPM = 60.0f)
@@ -133,6 +133,7 @@ public class NewCombatManager : MonoBehaviour
 
                 if (currentBpm >= winBPM)
                 {
+                    GameLevelHandler.Instance.SetLevelState(LevelState.Navigation);
                     //Debug.Log("Max BPM reached — PLAYER WIN!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);
@@ -142,6 +143,7 @@ public class NewCombatManager : MonoBehaviour
 
                 if (currentBpm < loseBPM)
                 {
+                    GameLevelHandler.Instance.SetLevelState(LevelState.Navigation);
                     //Debug.Log("Min BPM reached — PLAYER LOSE!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);
