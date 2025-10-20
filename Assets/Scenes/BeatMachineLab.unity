@@ -149,13 +149,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045e9c4d5b04b4f4881b127783ca3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songs:
+  levels:
   - notes:
-    - audioClip: {fileID: 8300000, guid: e2fd47e2f4317bf499cd8a0baf289c6e, type: 3}
+    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
       inputDir: 0
       eights: 8
-    - audioClip: {fileID: 8300000, guid: 931993d0c0e20c34aad2236eb9166bd0, type: 3}
+    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
+      inputDir: 0
+      eights: 8
+    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
+      inputDir: 0
+      eights: 4
+    - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
       inputDir: 2
+      eights: 4
+    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
+      inputDir: 1
       eights: 8
 --- !u!4 &239008273
 Transform:
@@ -503,7 +512,8 @@ MonoBehaviour:
   OnEvaluateStart:
     m_PersistentCalls:
       m_Calls: []
-  audioClip: {fileID: 8300000, guid: 8fae745e12afcba4b8ef1efae8233630, type: 3}
+  winSound: {fileID: 8300000, guid: 8fae745e12afcba4b8ef1efae8233630, type: 3}
+  loseSound: {fileID: 8300000, guid: 738c7fa5b5e475345a18b243e3d6d825, type: 3}
 --- !u!4 &943627596
 Transform:
   m_ObjectHideFlags: 0

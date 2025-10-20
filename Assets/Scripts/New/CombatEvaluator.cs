@@ -51,18 +51,17 @@ public class CombatEvaluator : MonoBehaviour
             if (diff <= perfectWindow)
             {
                 result = $"PERFECT ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(4.0f);
-
+                BeatMachine.Instance.ChangeBPM(2.0f);
             }
             else if (diff <= goodWindow)
             {
                 result = $"GOOD ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(2.0f);
+                BeatMachine.Instance.ChangeBPM(1.0f);
             }
             else
             {
                 result = $"MISS ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(-4.0f);
+                BeatMachine.Instance.ChangeBPM(-2.0f);
             }
 
             string timing = bestMatch.DSPTime < e.DSPTime ? "EARLY" : "LATE";

@@ -99,6 +99,11 @@ public class BeatMachine : MonoBehaviour
         bpm += f;
     }
 
+    public void SetBPM(float f)
+    {
+        bpm = f;
+    }
+
     public void Run(bool b)
     {
         if (b)

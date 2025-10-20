@@ -56,6 +56,11 @@ public class CombatInputHandler : MonoBehaviour
             return;
         }
 
+        if (NewCombatManager.Instance.CurrentPhase == CombatPhase.EnemyTurn)
+        {
+            return;
+        }
+
         if (inputVector.x < 0) // Left
         {
             combatInputs.Add(new CombatInput(InputDir.Left, AudioSettings.dspTime));

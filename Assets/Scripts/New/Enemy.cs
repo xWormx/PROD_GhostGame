@@ -37,14 +37,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    [SerializeField] private List<NoteList> songs;
+    [SerializeField] private List<NoteList> levels;
 
-    private int songIndex = 0;
+    private int levelIndex = 0;
     private AudioSource audioSource;
     private List<CombatInput> combatInputs = new();
 
-    public int noteIndex { get; private set; } = 0;
-    public int waitTicks { get; private set; } = 0;
+    public int noteIndex = 0;
+    public int waitTicks = 0;
 
 
     void Start()
@@ -60,12 +60,22 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (!songs.Any())
+        if (NewCombatManager.Instance.CurrentPhase == CombatPhase.PlayerTurn)
         {
             return;
         }
 
-        if (!songs[songIndex].notes.Any())
+        if (!levels.Any())
+        {
+            return;
+        }
+
+        if (levelIndex >= levels.Count())
+        {
+            levelIndex = 0; // Default to the first level
+        }
+
+        if (!levels[levelIndex].notes.Any())
         {
             return;
         }
@@ -76,12 +86,12 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (noteIndex >= songs[songIndex].notes.Count)
+        if (noteIndex >= levels[levelIndex].notes.Count)
         {
             return;
         }
 
-        NewNote n = songs[songIndex].notes[noteIndex];
+        NewNote n = levels[levelIndex].notes[noteIndex];
 
         if (n == null)
         {
@@ -93,24 +103,27 @@ public class Enemy : MonoBehaviour
         {
             case InputDir.Left:
                 {
+                    audioSource.volume = 1f;
                     audioSource.panStereo = -1f;
                     break;
                 }
 
             case InputDir.Right:
                 {
+                    audioSource.volume = 1f;
                     audioSource.panStereo = 1f;
                     break;
                 }
 
             case InputDir.Up:
                 {
+                    audioSource.volume = 0.5f;
                     audioSource.panStereo = 0f;
                     break;
                 }
         }
 
-        combatInputs.Add(new CombatInput(n.inputDir, AudioSettings.dspTime));
+        combatInputs.Add(new CombatInput(n.inputDir, AudioSettings.dspTime + 0.10));
         audioSource.PlayOneShot(n.audioClip);
 
         waitTicks = Mathf.Max(0, n.eights - 1);
@@ -119,7 +132,7 @@ public class Enemy : MonoBehaviour
 
     public void ClearCombatInputs() => combatInputs.Clear();
 
-    public List<CombatInput> GetExpectedResponses(double extraDelay = 0.0)
+    public List<CombatInput> GetExpectedResponses()
     {
         if (combatInputs.Count == 0)
             return new List<CombatInput>();
@@ -127,9 +140,9 @@ public class Enemy : MonoBehaviour
         // Get the DSP time of the last note enemy played
         double lastNoteTime = combatInputs[combatInputs.Count - 1].DSPTime;
 
-        // The player is expected to start after the last note + 1 full beat (or optional extra delay)
+        // The player is expected to start after the last note + 2 full beats (or optional extra delay)
         double tickInterval = BeatMachine.Instance.GetTickInterval();
-        double playerStartOffset = tickInterval * 8.0 + extraDelay; // 8 ticks = 1 full beat
+        double playerStartOffset = tickInterval * 24.0; // 8 ticks = 1 full beat
 
         List<CombatInput> expectedResponses = new();
 
@@ -149,11 +162,19 @@ public class Enemy : MonoBehaviour
 
     public int GetCurrentSongNotesCount()
     {
-        if (songIndex < songs.Count)
+        if (levelIndex < levels.Count)
         {
-            return songs[songIndex].Count();
+            return levels[levelIndex].Count();
         }
 
         return 0;
+    }
+
+    public void StartCombat(int level)
+    {
+        levelIndex = level;
+        waitTicks = 16;
+        noteIndex = 0;
+        ClearCombatInputs();
     }
 }
