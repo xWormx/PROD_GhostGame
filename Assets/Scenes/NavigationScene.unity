@@ -2797,7 +2797,7 @@ Transform:
   m_GameObject: {fileID: 1043930829}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.93, y: 0.66, z: 0}
+  m_LocalPosition: {x: 11.27, y: 0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3713,6 +3713,7 @@ MonoBehaviour:
   kick: {fileID: 8300000, guid: f37a108fbddf5e14aba06a8c7bf527ec, type: 3}
   snare: {fileID: 8300000, guid: 59f65c55a327ca643b1ce4d99c6935c2, type: 3}
   hihat: {fileID: 0}
+  playersCue: {fileID: 0}
 --- !u!4 &1456508822
 Transform:
   m_ObjectHideFlags: 0
