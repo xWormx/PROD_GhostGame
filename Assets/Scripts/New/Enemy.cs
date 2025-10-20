@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -46,6 +47,8 @@ public class Enemy : MonoBehaviour
     public int noteIndex = 0;
     public int waitTicks = 0;
 
+    public bool bRiffFinished = false;
+    private NoteList lastRiffPlayed;
 
     void Start()
     {
@@ -55,27 +58,10 @@ public class Enemy : MonoBehaviour
 
     private void Tick()
     {
-        if (!NewCombatManager.Instance.bInCombat)
-        {
-            return;
-        }
-
-        if (NewCombatManager.Instance.CurrentPhase != CombatPhase.EnemyTurn)
-        {
-            return;
-        }
-
-        if (!levels.Any())
-        {
-            return;
-        }
-
-        if (levelIndex >= levels.Count())
-        {
-            levelIndex = 0; // Default to the first level
-        }
-
-        if (!levels[levelIndex].notes.Any())
+        if (!NewCombatManager.Instance.bInCombat ||
+            NewCombatManager.Instance.CurrentPhase != CombatPhase.EnemyTurn ||
+            !levels.Any() ||
+            !levels[levelIndex].notes.Any())
         {
             return;
         }
@@ -83,11 +69,6 @@ public class Enemy : MonoBehaviour
         if (waitTicks > 0)
         {
             waitTicks--;
-            return;
-        }
-
-        if (noteIndex >= levels[levelIndex].notes.Count)
-        {
             return;
         }
 
@@ -128,6 +109,20 @@ public class Enemy : MonoBehaviour
 
         waitTicks = Mathf.Max(0, n.eights - 1);
         noteIndex++;
+
+        if (noteIndex >= levels[levelIndex].notes.Count)
+        {
+            bRiffFinished = true;
+            lastRiffPlayed = levels[levelIndex];
+            levelIndex++;
+
+            if (levelIndex >= levels.Count())
+            {
+                levelIndex = 0;
+            }
+
+            noteIndex = 0;
+        }
     }
 
     public void ClearCombatInputs() => combatInputs.Clear();
@@ -173,6 +168,11 @@ public class Enemy : MonoBehaviour
     public NoteList GetCurrentSongNotes()
     {
         return levels[levelIndex];
+    }
+
+    public NoteList GetLastRiffPlayed()
+    {
+        return lastRiffPlayed;
     }
 
     public void StartCombat(int level)

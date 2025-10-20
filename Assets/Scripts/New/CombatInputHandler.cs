@@ -84,14 +84,19 @@ public class CombatInputHandler : MonoBehaviour
             input.Direction = InputDir.Up;
         }
 
-        combatInputs.Add(input);
-
         enemyInputs = Enemy.Instance.GetExpectedResponses();
+
+        if (combatInputs.Count >= enemyInputs.Count)
+        {
+            return;
+        }
+
+        combatInputs.Add(input);
 
         if (combatInputs.Count <= enemyInputs.Count)
         {
             InputAccuracy hit = CombatEvaluator.Instance.CompareInput(enemyInputs[combatInputs.Count - 1], combatInputs[combatInputs.Count - 1], false);
-            List<NewNote> enemyNotes = Enemy.Instance.GetCurrentSongNotes().notes;
+            List<NewNote> enemyNotes = Enemy.Instance.GetLastRiffPlayed().notes;
 
             switch (hit)
             {

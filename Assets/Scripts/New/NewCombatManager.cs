@@ -65,6 +65,7 @@ public class NewCombatManager : MonoBehaviour
     {
         while (bInCombat)
         {
+            Enemy.Instance.bRiffFinished = false;
             // Enemy's turn
             //Debug.Log("Enemy's Turn.");
             CurrentPhase = CombatPhase.EnemyTurn;
@@ -84,8 +85,15 @@ public class NewCombatManager : MonoBehaviour
 
             double turnStartTime = AudioSettings.dspTime;
 
+            /*
             while (CombatInputHandler.Instance.GetCombatInputs().Count < expectedResponses.Count && 
                 AudioSettings.dspTime < expectedResponses[expectedResponses.Count - 1].DSPTime + 0.5)
+            {
+                yield return null;
+            }
+            */
+
+            while (AudioSettings.dspTime < expectedResponses[expectedResponses.Count - 1].DSPTime + 0.5)
             {
                 yield return null;
             }
@@ -162,6 +170,6 @@ public class NewCombatManager : MonoBehaviour
 
     private bool EnemySequenceFinished()
     {
-        return Enemy.Instance.noteIndex >= Enemy.Instance.GetCurrentSongNotesCount() && Enemy.Instance.waitTicks == 0;
+        return Enemy.Instance.bRiffFinished && Enemy.Instance.waitTicks == 0;
     }
 }
