@@ -65,7 +65,7 @@ public class NewCombatManager : MonoBehaviour
         while (bInCombat)
         {
             // Enemy's turn
-            Debug.Log("Enemy's Turn.");
+            //Debug.Log("Enemy's Turn.");
             CurrentPhase = CombatPhase.EnemyTurn;
             CombatInputHandler.Instance.ClearCombatInputs();
             Enemy.Instance.ClearCombatInputs();
@@ -75,17 +75,35 @@ public class NewCombatManager : MonoBehaviour
                 yield return null;
 
             // Player's turn
-            Debug.Log("Player's Turn.");
+            //Debug.Log("Player's Turn.");
             List<CombatInput> expectedResponses = Enemy.Instance.GetExpectedResponses();
             CurrentPhase = CombatPhase.PlayerTurn;
             CombatInputHandler.Instance.ClearCombatInputs();
             OnPlayerTurnStart?.Invoke();
 
-            while (CombatInputHandler.Instance.GetCombatInputs().Count < expectedResponses.Count)
+            double turnStartTime = AudioSettings.dspTime;
+
+            while (CombatInputHandler.Instance.GetCombatInputs().Count < expectedResponses.Count && 
+                AudioSettings.dspTime < expectedResponses[expectedResponses.Count - 1].DSPTime + 0.5)
+            {
                 yield return null;
+            }
+
+            /*
+            if (CombatInputHandler.Instance.GetCombatInputs().Count < expectedResponses.Count)
+            {
+                Debug.Log("Player timed out!");
+                audioSource.PlayOneShot(loseSound);
+            }
+            */
+
+            for (int i = CombatInputHandler.Instance.GetCombatInputs().Count; i < expectedResponses.Count; i++)
+            {
+                CombatInputHandler.Instance.AddNullInput();
+            }
 
             // Evaluation
-            Debug.Log("Evaluating...");
+            //Debug.Log("Evaluating...");
             CurrentPhase = CombatPhase.Evaluate;
             OnEvaluateStart?.Invoke();
 
@@ -102,11 +120,11 @@ public class NewCombatManager : MonoBehaviour
 
                 float currentBpm = (float)bpmField.GetValue(BeatMachine.Instance);
 
-                Debug.Log($"Current BPM: {currentBpm}");
+                //Debug.Log($"Current BPM: {currentBpm}");
 
                 if (currentBpm >= winBPM)
                 {
-                    Debug.Log("Max BPM reached — PLAYER WIN!");
+                    //Debug.Log("Max BPM reached — PLAYER WIN!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);
                     audioSource.PlayOneShot(winSound);
@@ -115,7 +133,7 @@ public class NewCombatManager : MonoBehaviour
 
                 if (currentBpm < loseBPM)
                 {
-                    Debug.Log("Min BPM reached — PLAYER LOSE!");
+                    //Debug.Log("Min BPM reached — PLAYER LOSE!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);
                     audioSource.PlayOneShot(loseSound);
@@ -134,7 +152,7 @@ public class NewCombatManager : MonoBehaviour
             Enemy.Instance.noteIndex = 0;
             Enemy.Instance.waitTicks = waitTicks;
 
-            Debug.Log($"Scheduling next enemy round: currentTick={currentTick}, ticksToNextBeat={ticksToNextBeat}, waitTicks={waitTicks}");
+            //Debug.Log($"Scheduling next enemy round: currentTick={currentTick}, ticksToNextBeat={ticksToNextBeat}, waitTicks={waitTicks}");
 
             yield return null; // yield one frame
 

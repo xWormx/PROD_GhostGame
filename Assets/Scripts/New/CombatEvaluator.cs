@@ -20,10 +20,9 @@ public class CombatEvaluator : MonoBehaviour
 
     public static void Evaluate(List<CombatInput> expected, List<CombatInput> player)
     {
-        // get tempo-dependent tick duration
-        double tickInterval = BeatMachine.Instance.GetTickInterval();
+        float bpmChange = 0f;
 
-        // define timing windows as fractions of tick length
+        double tickInterval = BeatMachine.Instance.GetTickInterval();
         double perfectWindow = tickInterval * 0.5;
         double goodWindow = tickInterval * 1.0;
 
@@ -37,7 +36,7 @@ public class CombatEvaluator : MonoBehaviour
 
             if (candidates.Count == 0)
             {
-                Debug.Log($"MISS - No input for {e.Direction}");
+                //Debug.Log($"MISS - No input for {e.Direction}");
                 continue;
             }
 
@@ -51,28 +50,40 @@ public class CombatEvaluator : MonoBehaviour
             if (diff <= perfectWindow)
             {
                 result = $"PERFECT ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(2.0f);
+                bpmChange += 4f;
             }
             else if (diff <= goodWindow)
             {
                 result = $"GOOD ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(1.0f);
+                bpmChange += 2f;
             }
             else
             {
                 result = $"MISS ({diff:F3}s)";
-                BeatMachine.Instance.ChangeBPM(-2.0f);
+                bpmChange -= 4f;
             }
 
             string timing = bestMatch.DSPTime < e.DSPTime ? "EARLY" : "LATE";
-            Debug.Log($"{e.Direction}: {result} {timing}");
+            //Debug.Log($"{e.Direction}: {result} {timing}");
 
             unmatchedPlayerInputs.Remove(bestMatch);
         }
 
         foreach (var extra in unmatchedPlayerInputs)
         {
-            Debug.Log($"Extra input: {extra.Direction} at {extra.DSPTime:F3}s (no matching note)");
+            //Debug.Log($"Extra input: {extra.Direction} at {extra.DSPTime:F3}s (no matching note)");
+            bpmChange -= 4f;
         }
+
+        if (bpmChange > 0)
+        {
+            // Player wins this turn: POSITIVE SFX
+        }
+        else
+        {
+            // Enemy wins this turn: NEGATIVE SFX
+        }
+
+        BeatMachine.Instance.ChangeBPM(bpmChange);
     }
 }

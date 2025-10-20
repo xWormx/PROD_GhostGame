@@ -109,6 +109,7 @@ public class BeatMachine : MonoBehaviour
         if (b)
         {
             nextEventTime = AudioSettings.dspTime + 2.0f;
+            //Debug.Log($"Current BPM: {bpm}");
         }
 
         tickCounter = 0;

@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
 
         if (n == null)
         {
-            Debug.Log($"Note {noteIndex} MISSING!");
+            //Debug.Log($"Note {noteIndex} MISSING!");
             return;
         }
 

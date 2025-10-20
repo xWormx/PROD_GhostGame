@@ -6,7 +6,8 @@ public enum InputDir
 {
     Left,
     Right,
-    Up
+    Up,
+    None
 }
 
 public class CombatInput
@@ -80,5 +81,10 @@ public class CombatInputHandler : MonoBehaviour
     public List<CombatInput> GetCombatInputs()
     {
         return combatInputs;
+    }
+
+    public void AddNullInput()
+    {
+        combatInputs.Add(new CombatInput(InputDir.None, 0.0));
     }
 }
