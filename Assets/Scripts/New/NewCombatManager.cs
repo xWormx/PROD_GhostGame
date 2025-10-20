@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public enum CombatPhase
 {
     EnemyTurn,
+    PlayerCue,
     PlayerTurn,
     Evaluate
 }
@@ -26,7 +27,7 @@ public class NewCombatManager : MonoBehaviour
         }
     }
 
-    public CombatPhase CurrentPhase { get; private set; }
+    public CombatPhase CurrentPhase;
 
     public UnityEvent OnEnemyTurnStart = new();
     public UnityEvent OnPlayerTurnStart = new();
@@ -77,9 +78,9 @@ public class NewCombatManager : MonoBehaviour
             // Player's turn
             //Debug.Log("Player's Turn.");
             List<CombatInput> expectedResponses = Enemy.Instance.GetExpectedResponses();
-            CurrentPhase = CombatPhase.PlayerTurn;
-            CombatInputHandler.Instance.ClearCombatInputs();
+            CurrentPhase = CombatPhase.PlayerCue;
             OnPlayerTurnStart?.Invoke();
+            CombatInputHandler.Instance.ClearCombatInputs();
 
             double turnStartTime = AudioSettings.dspTime;
 
@@ -110,7 +111,7 @@ public class NewCombatManager : MonoBehaviour
             List<CombatInput> expected = Enemy.Instance.GetExpectedResponses();
             List<CombatInput> player = CombatInputHandler.Instance.GetCombatInputs();
 
-            CombatEvaluator.Evaluate(expected, player);
+            CombatEvaluator.Instance.Evaluate(expected, player);
 
             // End of one round
             if (BeatMachine.Instance != null)

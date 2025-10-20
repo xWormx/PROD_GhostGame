@@ -60,10 +60,15 @@ public class BeatMachine : MonoBehaviour
         tickCounter++;
         //Debug.Log($"Note: {tickCounter} / 8");
 
-        if (tickCounter % 4 == 1 && playersTurnCountdown > 0)
+        if (tickCounter % 4 == 1 && playersTurnCountdown > 0) // Countdown to player's turn
         {
             playersTurnCountdown--;
             audioSource.PlayOneShot(playersCue);
+
+            if (playersTurnCountdown <= 0)
+            {
+                NewCombatManager.Instance.CurrentPhase = CombatPhase.PlayerTurn;
+            }
         }
 
         if (tickCounter % 2 == 1)

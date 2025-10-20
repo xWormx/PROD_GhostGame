@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (NewCombatManager.Instance.CurrentPhase == CombatPhase.PlayerTurn)
+        if (NewCombatManager.Instance.CurrentPhase != CombatPhase.EnemyTurn)
         {
             return;
         }
@@ -168,6 +168,11 @@ public class Enemy : MonoBehaviour
         }
 
         return 0;
+    }
+
+    public NoteList GetCurrentSongNotes()
+    {
+        return levels[levelIndex];
     }
 
     public void StartCombat(int level)
