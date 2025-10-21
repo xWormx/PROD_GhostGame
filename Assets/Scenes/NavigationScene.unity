@@ -2276,45 +2276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045e9c4d5b04b4f4881b127783ca3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - notes:
-    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
-      inputDir: 0
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
-      inputDir: 0
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
-      inputDir: 0
-      eights: 6
-    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
-      inputDir: 2
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
-      inputDir: 1
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 22089813d72e66449a3dec0966657bff, type: 3}
-      inputDir: 1
-      eights: 2
-    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
-      inputDir: 1
-      eights: 8
-  - notes:
-    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
-      inputDir: 1
-      eights: 8
-    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
-      inputDir: 1
-      eights: 8
-    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
-      inputDir: 1
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
-      inputDir: 2
-      eights: 4
-    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
-      inputDir: 0
-      eights: 8
+  battle0: []
+  battle1: []
+  battle2: []
   noteIndex: 0
   waitTicks: 0
   bRiffFinished: 0
@@ -2738,9 +2702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eeb44ed47c1ca4c8af11f09f769fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBPM: 180
-  winBPM: 260
-  loseBPM: 100
+  enemyNumber: 0
+  startingBPM: 100
+  winBPM: 200
+  loseBPM: 60
 --- !u!1 &774295082
 GameObject:
   m_ObjectHideFlags: 0
@@ -3446,6 +3411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eeb44ed47c1ca4c8af11f09f769fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyNumber: 1
   startingBPM: 100
   winBPM: 200
   loseBPM: 60
@@ -5097,9 +5063,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eeb44ed47c1ca4c8af11f09f769fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBPM: 60
-  winBPM: 80
-  loseBPM: 50
+  enemyNumber: 2
+  startingBPM: 100
+  winBPM: 200
+  loseBPM: 60
 --- !u!1 &1873172786
 GameObject:
   m_ObjectHideFlags: 0

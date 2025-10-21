@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -38,9 +37,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    [SerializeField] private List<NoteList> levels;
+    [SerializeField] private List<NoteList> battle0;
+    [SerializeField] private List<NoteList> battle1;
+    [SerializeField] private List<NoteList> battle2;
+    private List<NoteList> currentBattle;
 
-    private int levelIndex = 0;
+    private int battleIndex = 0;
     private AudioSource audioSource;
     private List<CombatInput> combatInputs = new();
 
@@ -60,8 +62,8 @@ public class Enemy : MonoBehaviour
     {
         if (!NewCombatManager.Instance.bInCombat ||
             NewCombatManager.Instance.CurrentPhase != CombatPhase.EnemyTurn ||
-            !levels.Any() ||
-            !levels[levelIndex].notes.Any())
+            !battle0.Any() ||
+            !battle0[battleIndex].notes.Any())
         {
             return;
         }
@@ -72,7 +74,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        NewNote n = levels[levelIndex].notes[noteIndex];
+        NewNote n = battle0[battleIndex].notes[noteIndex];
 
         if (n == null)
         {
@@ -110,15 +112,15 @@ public class Enemy : MonoBehaviour
         waitTicks = Mathf.Max(0, n.eights - 1);
         noteIndex++;
 
-        if (noteIndex >= levels[levelIndex].notes.Count)
+        if (noteIndex >= battle0[battleIndex].notes.Count)
         {
             bRiffFinished = true;
-            lastRiffPlayed = levels[levelIndex];
-            levelIndex++;
+            lastRiffPlayed = battle0[battleIndex];
+            battleIndex++;
 
-            if (levelIndex >= levels.Count())
+            if (battleIndex >= battle0.Count())
             {
-                levelIndex = 0;
+                battleIndex = 0;
             }
 
             noteIndex = 0;
@@ -157,9 +159,9 @@ public class Enemy : MonoBehaviour
 
     public int GetCurrentSongNotesCount()
     {
-        if (levelIndex < levels.Count)
+        if (battleIndex < battle0.Count)
         {
-            return levels[levelIndex].Count();
+            return battle0[battleIndex].Count();
         }
 
         return 0;
@@ -167,7 +169,7 @@ public class Enemy : MonoBehaviour
 
     public NoteList GetCurrentSongNotes()
     {
-        return levels[levelIndex];
+        return battle0[battleIndex];
     }
 
     public NoteList GetLastRiffPlayed()
@@ -175,10 +177,34 @@ public class Enemy : MonoBehaviour
         return lastRiffPlayed;
     }
 
-    public void StartCombat(int level)
+    public void StartCombat(int enemyNumber)
     {
-        levelIndex = level;
+        switch (enemyNumber)
+        {
+            case 0:
+                {
+                    currentBattle = battle0;
+                    break;
+                }
+            case 1:
+                {
+                    currentBattle = battle1;
+                    break;
+                }
+            case 2:
+                {
+                    currentBattle = battle2;
+                    break;
+                }
+            default:
+                {
+                    currentBattle = battle0;
+                    break;
+                }
+        }
+
         waitTicks = 16;
+        battleIndex = 0;
         noteIndex = 0;
         ClearCombatInputs();
     }

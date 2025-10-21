@@ -47,14 +47,14 @@ public class NewCombatManager : MonoBehaviour
         //RunCombat(0);
     }
 
-    public void RunCombat(int level, float startingBPM = 100.0f, float winBPM = 200.0f, float loseBPM = 60.0f)
+    public void RunCombat(int enemyNumber, float startingBPM = 100.0f, float winBPM = 200.0f, float loseBPM = 60.0f)
     {
         BeatMachine.Instance.SetBPM(startingBPM);
 
         this.winBPM = winBPM;
         this.loseBPM = loseBPM;
 
-        Enemy.Instance.StartCombat(level);
+        Enemy.Instance.StartCombat(enemyNumber);
         BeatMachine.Instance.Run(true);
         bInCombat = true;
 
