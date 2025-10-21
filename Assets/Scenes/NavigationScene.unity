@@ -425,7 +425,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (9)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -479,7 +479,7 @@ GameObject:
   m_Layer: 0
   m_Name: DemonBattlePoint
   m_TagString: DemonArea
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -536,6 +536,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 861f5c038cee0264dac64fb343034790, type: 3}
   - {fileID: 8300000, guid: bcd9fe43eb157414b8327471126157e1, type: 3}
   audioClipSpeech:
+  - {fileID: 8300000, guid: 166881cd5ea646c4cb955391eeb8a390, type: 3}
+  - {fileID: 8300000, guid: aa38a058c4554ee41966cafaba275e0f, type: 3}
+  - {fileID: 8300000, guid: d3999fdfc4cc8f948ba81f0546a111e0, type: 3}
   - {fileID: 8300000, guid: 99cdd824c45f0de4095ffb3927819cc3, type: 3}
 --- !u!1 &192895964
 GameObject:
@@ -704,7 +707,7 @@ GameObject:
   m_Layer: 0
   m_Name: DemonBattlePoint (1)
   m_TagString: DemonArea
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -761,6 +764,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5bda8c1b6c44b4542ad648795996449a, type: 3}
   - {fileID: 8300000, guid: de34227c4c34a5942bdd412ca3c92891, type: 3}
   audioClipSpeech:
+  - {fileID: 8300000, guid: 116339970f1b13e43bcac89b1a706fdc, type: 3}
+  - {fileID: 8300000, guid: f309524d3a84c2e4ab691084f658d66f, type: 3}
+  - {fileID: 8300000, guid: c88bde84f2a2267429221241bad84d38, type: 3}
   - {fileID: 8300000, guid: 4bf92242128f13143af065d903af0987, type: 3}
 --- !u!1 &325864755
 GameObject:
@@ -810,7 +816,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (3)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1216,7 +1222,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (6)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1269,7 +1275,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (7)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1737,7 +1743,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (2)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2274,16 +2280,22 @@ MonoBehaviour:
   - notes:
     - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
       inputDir: 0
-      eights: 8
-    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
-      inputDir: 0
-      eights: 8
-    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
-      inputDir: 0
       eights: 4
     - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
+      inputDir: 0
+      eights: 4
+    - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
+      inputDir: 0
+      eights: 6
+    - audioClip: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
       inputDir: 2
       eights: 4
+    - audioClip: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
+      inputDir: 1
+      eights: 4
+    - audioClip: {fileID: 8300000, guid: 22089813d72e66449a3dec0966657bff, type: 3}
+      inputDir: 1
+      eights: 2
     - audioClip: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
       inputDir: 1
       eights: 8
@@ -2319,7 +2331,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (4)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2939,7 +2951,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (8)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3112,7 +3124,7 @@ Transform:
   m_GameObject: {fileID: 983680602}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.97, z: 0}
+  m_LocalPosition: {x: 0, y: 0.97, z: 0.16}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3308,7 +3320,7 @@ GameObject:
   m_Layer: 0
   m_Name: DemonBattlePoint (2)
   m_TagString: DemonArea
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3365,7 +3377,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 790692336cb15d44ba9d43f7bc70ebdc, type: 3}
   - {fileID: 8300000, guid: 431c9ce6522d8dc479cef8d2542fe0a6, type: 3}
   audioClipSpeech:
-  - {fileID: 8300000, guid: 99cdd824c45f0de4095ffb3927819cc3, type: 3}
+  - {fileID: 8300000, guid: 64ce09eb6a630cc4c91a7c5de1be53cc, type: 3}
+  - {fileID: 8300000, guid: 8613c3cedc78478489c087d64f0a47ed, type: 3}
+  - {fileID: 8300000, guid: 52f1e17f9caedb6488d801edea4f15bc, type: 3}
 --- !u!1 &1051319582
 GameObject:
   m_ObjectHideFlags: 0
@@ -4426,7 +4440,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (1)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -4479,7 +4493,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger (5)
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5469,7 +5483,7 @@ GameObject:
   m_Layer: 0
   m_Name: Corner Trigger
   m_TagString: CornerTrigger
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

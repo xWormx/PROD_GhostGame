@@ -134,6 +134,8 @@ public class NewCombatManager : MonoBehaviour
                 if (currentBpm >= winBPM)
                 {
                     GameLevelHandler.Instance.SetLevelState(LevelState.Navigation);
+                    GameLevelHandler.Instance.DemonDefeated();
+                    NavigationAudioHandler.Instance.PlayBackgroundAmbience();
                     //Debug.Log("Max BPM reached — PLAYER WIN!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);

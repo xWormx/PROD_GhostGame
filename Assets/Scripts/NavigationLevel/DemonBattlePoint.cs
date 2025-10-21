@@ -47,4 +47,12 @@ public class DemonBattlePoint : MonoBehaviour
             NavigationAudioHandler.Instance.PlayDemonSpeechClip(audioClipSpeech[randomSpeech], volume, pan);
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            GameLevelHandler.Instance.SetCurrentEncounteredDemon(gameObject);
+        }
+    }
 }

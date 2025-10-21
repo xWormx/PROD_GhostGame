@@ -18,6 +18,8 @@ public class GameLevelHandler : MonoBehaviour
     [SerializeField] private int demonsDefeated = 0;
     [SerializeField] private LevelState levelState = LevelState.Navigation;
 
+    private GameObject currentEncounteredDemon;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -55,12 +57,22 @@ public class GameLevelHandler : MonoBehaviour
         }
     }
 
+    public void SetCurrentEncounteredDemon(GameObject encounteredDemon)
+    {
+        currentEncounteredDemon = encounteredDemon;
+    }
+
     public void DemonDefeated()
     {
         demonsDefeated++;
+        RemoveDemon();
     }
 
     public int GetDemonsDefeated() { return demonsDefeated; }
 
-
+    private void RemoveDemon()
+    {
+        if(currentEncounteredDemon)
+            Destroy(currentEncounteredDemon);
+    }
 }

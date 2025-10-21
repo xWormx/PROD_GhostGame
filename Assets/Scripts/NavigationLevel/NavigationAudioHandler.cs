@@ -65,4 +65,9 @@ public class NavigationAudioHandler : MonoBehaviour
         snapshotToNavigation.TransitionTo(snapshotTransitionTime);
     }
 
+    public void PlayBackgroundAmbience()
+    {
+        audioSrcBackgroundAmbience.Play();
+    }
+
 }

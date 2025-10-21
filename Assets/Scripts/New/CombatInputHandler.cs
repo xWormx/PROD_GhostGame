@@ -106,7 +106,8 @@ public class CombatInputHandler : MonoBehaviour
                         audioSource.volume = 0.1f;
                         AudioClip clip = enemyNotes[combatInputs.Count - 1].audioClip;
                         audioSource.clip = clip;
-                        audioSource.PlayScheduled(AudioSettings.dspTime + 0.001);
+                        //audioSource.PlayScheduled(AudioSettings.dspTime + 0.001);
+                        audioSource.PlayOneShot(clip);
                         break;
                     }
                 case InputAccuracy.Miss:
