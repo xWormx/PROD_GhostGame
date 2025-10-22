@@ -225,22 +225,22 @@ public class Enemy : MonoBehaviour
             notes = new List<NewNote> {
         N(E, InputDir.Left, 4),
         N(G, InputDir.Up, 4),
-        N(A, InputDir.Right, 8),
+        N(A, InputDir.Right, 6),
         N(E, InputDir.Left, 4),
         N(G, InputDir.Up, 4),
-        N(A, InputDir.Right, 8),
-        N(G, InputDir.Up, 4)
+        N(As, InputDir.Right, 2),
+        N(A, InputDir.Up, 8)
     }
         };
 
         var smokeRiff2 = new NoteList
         {
             notes = new List<NewNote> {
-        N(A, InputDir.Left, 8),
+        N(E, InputDir.Left, 4),
         N(G, InputDir.Right, 4),
-        N(E, InputDir.Up, 4),
+        N(A, InputDir.Up, 6),
         N(G, InputDir.Left, 4),
-        N(E, InputDir.Right, 8)
+        N(E, InputDir.Right, 14)
     }
         };
 
@@ -281,6 +281,6 @@ public class Enemy : MonoBehaviour
         };
 
         // Now combine them into a battle
-        battle0 = new List<NoteList> { smokeRiff1, smokeRiff2, armyRiff1, ironRiff, bluesRiff };
+        battle0 = new List<NoteList> { smokeRiff2, smokeRiff1, armyRiff1, ironRiff, bluesRiff };
     }
 }
