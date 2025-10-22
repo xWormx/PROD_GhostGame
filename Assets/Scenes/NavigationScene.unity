@@ -5452,7 +5452,7 @@ MonoBehaviour:
   winSounds:
   - {fileID: 8300000, guid: f0fb69a1da8861b41956bf7829436705, type: 3}
   - {fileID: 8300000, guid: a55ec2e8c6366b146a2e0124b36b6466, type: 3}
-  loseSound: {fileID: 8300000, guid: 738c7fa5b5e475345a18b243e3d6d825, type: 3}
+  loseSound: {fileID: 8300000, guid: 88f566bc735243847bed5d41d12987c4, type: 3}
   tutorial1: {fileID: 8300000, guid: a68ae933bad245b478b62ef445f5b681, type: 3}
   tutorial2: {fileID: 8300000, guid: edcb17fc1cedb4c43bec79420d690268, type: 3}
   audioSource: {fileID: 0}
