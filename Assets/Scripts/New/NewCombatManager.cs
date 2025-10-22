@@ -36,7 +36,8 @@ public class NewCombatManager : MonoBehaviour
     public bool bInCombat { get; private set; } = false;
 
     [SerializeField] private bool tutorialActive = true;
-    [SerializeField] private AudioClip winSound, loseSound;
+    [SerializeField] private AudioClip[] winSounds;
+    [SerializeField] private AudioClip loseSound;
     [SerializeField] private AudioClip tutorial1, tutorial2;
     public AudioSource audioSource;
 
@@ -186,7 +187,7 @@ public class NewCombatManager : MonoBehaviour
                     //Debug.Log("Max BPM reached — PLAYER WIN!");
                     bInCombat = false;
                     BeatMachine.Instance.Run(false);
-                    audioSource.PlayOneShot(winSound);
+                    audioSource.PlayOneShot(winSounds[Random.Range(0, winSounds.Length)]);
                     yield break;
                 }
 
