@@ -37,9 +37,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    [SerializeField] private List<NoteList> battle0;
-    [SerializeField] private List<NoteList> battle1;
-    [SerializeField] private List<NoteList> battle2;
+    [SerializeField] private AudioClip A, As, B, E, F, Fs, G, Gs;
+    private List<NoteList> battle0;
+    private List<NoteList> battle1;
+    private List<NoteList> battle2;
     private List<NoteList> currentBattle;
 
     private int battleIndex = 0;
@@ -55,6 +56,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        InitBattles();
         BeatMachine.Instance.tick.AddListener(Tick);
     }
 
@@ -207,5 +209,78 @@ public class Enemy : MonoBehaviour
         battleIndex = 0;
         noteIndex = 0;
         ClearCombatInputs();
+    }
+
+    void InitBattles()
+    {
+        // Helper for readability
+        NewNote N(AudioClip clip, InputDir dir, int eights = 4)
+        {
+            return new NewNote { audioClip = clip, inputDir = dir, eights = eights };
+        }
+
+        // "Smoke on the Water" (simplified riff with E-G-A)
+        var smokeRiff1 = new NoteList
+        {
+            notes = new List<NewNote> {
+        N(E, InputDir.Left, 4),
+        N(G, InputDir.Up, 4),
+        N(A, InputDir.Right, 8),
+        N(E, InputDir.Left, 4),
+        N(G, InputDir.Up, 4),
+        N(A, InputDir.Right, 8),
+        N(G, InputDir.Up, 4)
+    }
+        };
+
+        var smokeRiff2 = new NoteList
+        {
+            notes = new List<NewNote> {
+        N(A, InputDir.Left, 8),
+        N(G, InputDir.Right, 4),
+        N(E, InputDir.Up, 4),
+        N(G, InputDir.Left, 4),
+        N(E, InputDir.Right, 8)
+    }
+        };
+
+        // "Seven Nation Army" (E - G - A - E)
+        var armyRiff1 = new NoteList
+        {
+            notes = new List<NewNote> {
+        N(E, InputDir.Left, 4),
+        N(G, InputDir.Up, 4),
+        N(A, InputDir.Right, 8),
+        N(G, InputDir.Left, 4),
+        N(E, InputDir.Right, 8)
+    }
+        };
+
+        // "Iron Man" (E - G - A - G - E)
+        var ironRiff = new NoteList
+        {
+            notes = new List<NewNote> {
+        N(E, InputDir.Left, 4),
+        N(G, InputDir.Right, 4),
+        N(A, InputDir.Left, 8),
+        N(G, InputDir.Up, 4),
+        N(E, InputDir.Right, 8)
+    }
+        };
+
+        // Random bluesy lick (A - C# - D - E - G)
+        var bluesRiff = new NoteList
+        {
+            notes = new List<NewNote> {
+        N(A, InputDir.Left, 4),
+        N(As, InputDir.Up, 4),
+        N(B, InputDir.Right, 4),
+        N(E, InputDir.Left, 4),
+        N(G, InputDir.Right, 8)
+    }
+        };
+
+        // Now combine them into a battle
+        battle0 = new List<NoteList> { smokeRiff1, smokeRiff2, armyRiff1, ironRiff, bluesRiff };
     }
 }

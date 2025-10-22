@@ -2276,9 +2276,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045e9c4d5b04b4f4881b127783ca3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battle0: []
-  battle1: []
-  battle2: []
+  A: {fileID: 8300000, guid: 0b58803f0052a6c4996a8ac02222b132, type: 3}
+  As: {fileID: 8300000, guid: 22089813d72e66449a3dec0966657bff, type: 3}
+  B: {fileID: 8300000, guid: 471d2533ca1516c418bbba76c8110bcc, type: 3}
+  E: {fileID: 8300000, guid: 42332537cc1d36041a4d5a265670c541, type: 3}
+  F: {fileID: 8300000, guid: d7c6c70937f65fc489a1645b650e16c1, type: 3}
+  Fs: {fileID: 8300000, guid: 8f7816729632f4e48854344517e365ef, type: 3}
+  G: {fileID: 8300000, guid: 7ebafe7e340a6c9439a2bd6e19bdad08, type: 3}
+  Gs: {fileID: 8300000, guid: ed0ac5f838a92e64e9c569dc7ceca4ec, type: 3}
   noteIndex: 0
   waitTicks: 0
   bRiffFinished: 0
@@ -2706,6 +2711,7 @@ MonoBehaviour:
   startingBPM: 100
   winBPM: 200
   loseBPM: 60
+  parent: {fileID: 182725141}
 --- !u!1 &774295082
 GameObject:
   m_ObjectHideFlags: 0
@@ -3415,6 +3421,7 @@ MonoBehaviour:
   startingBPM: 100
   winBPM: 200
   loseBPM: 60
+  parent: {fileID: 265160291}
 --- !u!1 &1074120234
 GameObject:
   m_ObjectHideFlags: 0
@@ -5067,6 +5074,7 @@ MonoBehaviour:
   startingBPM: 100
   winBPM: 200
   loseBPM: 60
+  parent: {fileID: 1043930829}
 --- !u!1 &1873172786
 GameObject:
   m_ObjectHideFlags: 0
