@@ -82,6 +82,8 @@ public class MovementHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!NewCombatManager.Instance.playerCanMove) return;
+
         if (GameLevelHandler.Instance.GetLevelState() != LevelState.Navigation) // Joel: Combat och Navigation hanteras i samma scen
         {
             return;
@@ -93,21 +95,21 @@ public class MovementHandler : MonoBehaviour
         {
             transform.position = new Vector3(0, 1, 0);
         }
-        if (Input.GetKey("w"))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             movementVector.z = speed;
         }
-        if (Input.GetKey("s"))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             movementVector.z = -speed;
         }
-        if (Input.GetKey("d"))
+        if (Input.GetKey(KeyCode.LeftArrow))
         { 
-            movementVector.x = speed;
-        }
-        if (Input.GetKey("a"))
-        {
             movementVector.x = -speed;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            movementVector.x = speed;
         }
 
         if ((movementVector.x != 0.0f) ||

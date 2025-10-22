@@ -27,6 +27,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private AudioClip noteHitSound;
     [SerializeField] private AudioClip successSound;
     [SerializeField] private AudioClip failSound;
+    [SerializeField] private AudioClip tutorial1, tutorial2;
 
     // Songs and riffs
     [SerializeField] private Song[] songs;

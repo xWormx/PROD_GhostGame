@@ -298,6 +298,8 @@ MonoBehaviour:
   noteHitSound: {fileID: 8300000, guid: 5bde56e7c39ee2043a5e9fb66e6c1a22, type: 3}
   successSound: {fileID: 8300000, guid: 8fae745e12afcba4b8ef1efae8233630, type: 3}
   failSound: {fileID: 8300000, guid: 738c7fa5b5e475345a18b243e3d6d825, type: 3}
+  tutorial1: {fileID: 0}
+  tutorial2: {fileID: 0}
   songs:
   - {fileID: 11400000, guid: f1b7164f28bbc874b944978b459ea995, type: 2}
 --- !u!4 &114342301
@@ -5443,8 +5445,12 @@ MonoBehaviour:
   OnEvaluateStart:
     m_PersistentCalls:
       m_Calls: []
+  tutorialActive: 0
   winSound: {fileID: 8300000, guid: 8fae745e12afcba4b8ef1efae8233630, type: 3}
   loseSound: {fileID: 8300000, guid: 738c7fa5b5e475345a18b243e3d6d825, type: 3}
+  tutorial1: {fileID: 8300000, guid: a68ae933bad245b478b62ef445f5b681, type: 3}
+  tutorial2: {fileID: 8300000, guid: edcb17fc1cedb4c43bec79420d690268, type: 3}
+  audioSource: {fileID: 0}
 --- !u!1 &1896714946
 GameObject:
   m_ObjectHideFlags: 0

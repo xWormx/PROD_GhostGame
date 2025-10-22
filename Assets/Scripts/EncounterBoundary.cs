@@ -27,6 +27,7 @@ public class EncounterBoundary : MonoBehaviour
         if (bIsActive)
         {
             bIsActive = false;
+            NewCombatManager.Instance.audioSource.Stop();
             NewCombatManager.Instance.RunCombat(enemyNumber, startingBPM, winBPM, loseBPM);
             GameLevelHandler.Instance.SetLevelState(LevelState.Combat);
             

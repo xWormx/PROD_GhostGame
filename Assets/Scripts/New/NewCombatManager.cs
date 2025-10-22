@@ -35,8 +35,13 @@ public class NewCombatManager : MonoBehaviour
 
     public bool bInCombat { get; private set; } = false;
 
+    [SerializeField] private bool tutorialActive = true;
     [SerializeField] private AudioClip winSound, loseSound;
-    private AudioSource audioSource;
+    [SerializeField] private AudioClip tutorial1, tutorial2;
+    public AudioSource audioSource;
+
+    public bool playerCanMove { get; private set; } = false;
+    public bool bFirstCombatEncounter { get; private set; } = true;
 
     private float winBPM = 200.0f;
     private float loseBPM = 60.0f;
@@ -44,11 +49,47 @@ public class NewCombatManager : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        //RunCombat(0);
+        
+        if (tutorialActive)
+        {
+            audioSource.PlayOneShot(tutorial1);
+            Invoke("CanMove", 16.0f);
+        }
+        else
+        {
+            playerCanMove = true;
+        }
+    }
+
+    /*
+    void Update()
+    {
+        if (Input.GetKey("q"))
+        {
+            audioSource.Stop();
+
+            if (GameLevelHandler.Instance.GetLevelState() == LevelState.Navigation)
+            {
+                playerCanMove = true;
+            }
+        }
+    }
+    */
+
+    private void CanMove()
+    {
+        playerCanMove = true;
     }
 
     public void RunCombat(int enemyNumber, float startingBPM = 100.0f, float winBPM = 200.0f, float loseBPM = 60.0f)
     {
+        if (bFirstCombatEncounter && tutorialActive)
+        {
+            audioSource.PlayOneShot(tutorial2);
+            Invoke("TutorialDone", 23.0f);
+            return;
+        }
+
         BeatMachine.Instance.SetBPM(startingBPM);
 
         this.winBPM = winBPM;
@@ -61,10 +102,18 @@ public class NewCombatManager : MonoBehaviour
         StartCoroutine(Combat());
     }
 
+    private void TutorialDone()
+    {
+        bFirstCombatEncounter = false;
+        RunCombat(0, 100.0f, 200.0f, 60.0f);
+    }
+
     private IEnumerator Combat()
     {
         while (bInCombat)
         {
+            while (bFirstCombatEncounter) yield return null;
+
             Enemy.Instance.bRiffFinished = false;
             // Enemy's turn
             //Debug.Log("Enemy's Turn.");
