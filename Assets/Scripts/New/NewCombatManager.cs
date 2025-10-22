@@ -112,8 +112,6 @@ public class NewCombatManager : MonoBehaviour
     {
         while (bInCombat)
         {
-            while (bFirstCombatEncounter) yield return null;
-
             Enemy.Instance.bRiffFinished = false;
             // Enemy's turn
             //Debug.Log("Enemy's Turn.");

@@ -6,16 +6,10 @@ public class EncounterBoundary : MonoBehaviour
     [SerializeField] private float startingBPM = 100.0f;
     [SerializeField] private float winBPM = 200.0f;
     [SerializeField] private float loseBPM = 60.0f;
+    [SerializeField] private float respawnTime = 60.0f;
     [SerializeField] private GameObject parent;
 
     private bool bIsActive = true;
-    private bool bHasMoved = false;
-    private Vector3 startPos;
-
-    private void Start()
-    {
-        startPos = parent.transform.position;
-    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -27,20 +21,19 @@ public class EncounterBoundary : MonoBehaviour
         if (bIsActive)
         {
             bIsActive = false;
+
             NewCombatManager.Instance.audioSource.Stop();
             NewCombatManager.Instance.RunCombat(enemyNumber, startingBPM, winBPM, loseBPM);
             GameLevelHandler.Instance.SetLevelState(LevelState.Combat);
-            
-            if (bHasMoved)
-            {
-                parent.transform.position = startPos;
-            }
-            else
-            {
-                parent.transform.position = new Vector3(0, 0, 0);
-            }
+            parent.SetActive(false);
 
-            bIsActive = true;
+            Invoke("Respawn", respawnTime);
         }
+    }
+
+    private void Respawn()
+    {
+        parent.SetActive(true);
+        bIsActive = true;
     }
 }
