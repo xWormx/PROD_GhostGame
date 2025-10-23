@@ -28,6 +28,8 @@ public class CombatEvaluator : MonoBehaviour
     [SerializeField] private AudioClip good, bad;
     private AudioSource audioSource;
 
+    private int timesCalled = 0;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -35,6 +37,8 @@ public class CombatEvaluator : MonoBehaviour
 
     public void Evaluate(List<CombatInput> expected, List<CombatInput> player)
     {
+        timesCalled++;
+        Debug.Log($"CombatEvaluator.Evaluate() called {timesCalled} times total.");
         float bpmChange = 0f;
 
         double tickInterval = BeatMachine.Instance.GetTickInterval();
@@ -42,6 +46,7 @@ public class CombatEvaluator : MonoBehaviour
         double goodWindow = tickInterval * 1.0;
 
         var unmatchedPlayerInputs = new List<CombatInput>(player);
+        CombatInputHandler.Instance.ClearCombatInputs();
 
         foreach (var e in expected)
         {
@@ -51,7 +56,7 @@ public class CombatEvaluator : MonoBehaviour
 
             if (candidates.Count == 0)
             {
-                //Debug.Log($"MISS - No input for {e.Direction}");
+                Debug.Log($"MISS - No input for {e.Direction}");
                 continue;
             }
 
@@ -80,7 +85,7 @@ public class CombatEvaluator : MonoBehaviour
             }
 
             string timing = bestMatch.DSPTime < e.DSPTime ? "EARLY" : "LATE";
-            //Debug.Log($"{e.Direction}: {result} {timing}");
+            Debug.Log($"{e.Direction}: {result} {timing}");
 
             unmatchedPlayerInputs.Remove(bestMatch);
         }
@@ -89,19 +94,24 @@ public class CombatEvaluator : MonoBehaviour
         {
             //Debug.Log($"Extra input: {extra.Direction} at {extra.DSPTime:F3}s (no matching note)");
             bpmChange -= 4f;
+            EventLogger.instance.LogEvent($"Non-matching input '{extra.Direction}' during battle {Enemy.Instance.GetCurrentBattleNumber()}");
+            Debug.Log($"BPM down. {unmatchedPlayerInputs.Count()} umatched inputs.");
         }
 
         if (bpmChange > 0)
         {
             // Player wins this turn: POSITIVE SFX
             audioSource.PlayOneShot(good);
+            Debug.Log("Riff over: Positive outcome!");
         }
         else
         {
             // Enemy wins this turn: NEGATIVE SFX
             audioSource.PlayOneShot(bad);
+            Debug.Log("Riff over: Negative outcome.");
         }
 
+        Debug.Log($"BPM change: {bpmChange}");
         BeatMachine.Instance.ChangeBPM(bpmChange);
     }
 
