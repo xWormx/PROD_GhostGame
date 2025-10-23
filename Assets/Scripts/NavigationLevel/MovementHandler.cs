@@ -27,7 +27,10 @@ public class FootstepAudioPlayer
 
     public void SetPan(float pan)
     {
-            audioSourceFootStep.panStereo = pan;  
+        //audioSourceFootStep.panStereo = pan;  
+        
+        // Fotsteg ska inte panorerars?
+        audioSourceFootStep.panStereo = 0.0f;
     }
 
     public float GetPan() { return audioSourceFootStep.panStereo; }

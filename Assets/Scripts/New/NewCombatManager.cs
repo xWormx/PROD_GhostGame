@@ -181,6 +181,7 @@ public class NewCombatManager : MonoBehaviour
 
                 if (currentBpm >= winBPM)
                 {
+                    Debug.Log("WINNING");
                     GameLevelHandler.Instance.SetLevelState(LevelState.Navigation);
                     GameLevelHandler.Instance.DemonDefeated();
                     NavigationAudioHandler.Instance.PlayBackgroundAmbience();

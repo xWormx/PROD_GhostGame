@@ -163,6 +163,7 @@ public class Enemy : MonoBehaviour
     {
         if (battleIndex < battle0.Count)
         {
+            Debug.Log("Running again even when finished");
             return battle0[battleIndex].Count();
         }
 
@@ -219,70 +220,46 @@ public class Enemy : MonoBehaviour
             return new NewNote { audioClip = clip, inputDir = dir, eights = eights };
         }
 
-        // "Smoke on the Water" (simplified riff with E-G-A)
         var smokeRiff1 = new NoteList
         {
             notes = new List<NewNote> {
-        N(E, InputDir.Left, 4),
-        N(G, InputDir.Up, 4),
-        N(A, InputDir.Right, 6),
-        N(E, InputDir.Left, 4),
-        N(G, InputDir.Up, 4),
-        N(As, InputDir.Right, 2),
-        N(A, InputDir.Up, 8)
-    }
+            N(E, InputDir.Left, 8),
+            N(F, InputDir.Left, 8),
+            N(G, InputDir.Right, 8),
+            N(Gs, InputDir.Right, 8)
+            
+            }
         };
 
+        // "Smoke on the Water" (simplified riff with E-G-A)
         var smokeRiff2 = new NoteList
         {
             notes = new List<NewNote> {
-        N(E, InputDir.Left, 4),
-        N(G, InputDir.Right, 4),
-        N(A, InputDir.Up, 2),
-        N(G, InputDir.Left, 2),
-        N(A, InputDir.Left, 4),
-        N(G, InputDir.Right, 4),
-        N(E, InputDir.Right, 8)
-    }
+             N(E, InputDir.Left, 4),
+             N(G, InputDir.Up, 4),
+             N(A, InputDir.Right, 6),
+             N(E, InputDir.Left, 4),
+             N(G, InputDir.Up, 4),
+             N(As, InputDir.Right, 2),
+             N(A, InputDir.Up, 8)
+            }
         };
-
         // "Seven Nation Army" (E - G - A - E)
         var armyRiff1 = new NoteList
         {
             notes = new List<NewNote> {
         N(E, InputDir.Left, 4),
-        N(G, InputDir.Up, 4),
-        N(A, InputDir.Right, 8),
-        N(G, InputDir.Left, 4),
-        N(E, InputDir.Right, 8)
-    }
-        };
-
-        // "Iron Man" (E - G - A - G - E)
-        var ironRiff = new NoteList
-        {
-            notes = new List<NewNote> {
-        N(E, InputDir.Left, 4),
         N(G, InputDir.Right, 4),
-        N(A, InputDir.Left, 8),
-        N(G, InputDir.Up, 4),
-        N(E, InputDir.Right, 8)
-    }
-        };
+        N(A, InputDir.Right, 8),
+        N(G, InputDir.Up, 2),
+        N(A, InputDir.Up, 6),
+        N(G, InputDir.Left, 8)
 
-        // Random bluesy lick (A - C# - D - E - G)
-        var bluesRiff = new NoteList
-        {
-            notes = new List<NewNote> {
-        N(A, InputDir.Left, 4),
-        N(As, InputDir.Up, 4),
-        N(B, InputDir.Right, 4),
-        N(E, InputDir.Left, 4),
-        N(G, InputDir.Right, 8)
-    }
+        }
         };
 
         // Now combine them into a battle
-        battle0 = new List<NoteList> { smokeRiff1, smokeRiff2, armyRiff1, ironRiff, bluesRiff };
+        battle0 = new List<NoteList> { smokeRiff1};
+        //battle0 = new List<NoteList> { smokeRiff1, smokeRiff2, armyRiff1 };
     }
 }
