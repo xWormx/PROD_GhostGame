@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     private List<NoteList> battle1;
     private List<NoteList> battle2;
     private List<NoteList> currentBattle;
+    private int currentBattleNumber = 0;
 
     private int battleIndex = 0;
     private AudioSource audioSource;
@@ -182,10 +183,12 @@ public class Enemy : MonoBehaviour
 
     public void StartCombat(int enemyNumber)
     {
+        currentBattleNumber++;
         switch (enemyNumber)
         {
             case 0:
                 {
+                    
                     currentBattle = battle0;
                     break;
                 }
@@ -220,7 +223,7 @@ public class Enemy : MonoBehaviour
             return new NewNote { audioClip = clip, inputDir = dir, eights = eights };
         }
 
-        var smokeRiff1 = new NoteList
+        var calleRiff1 = new NoteList
         {
             notes = new List<NewNote> {
             N(E, InputDir.Left, 8),
@@ -231,8 +234,22 @@ public class Enemy : MonoBehaviour
             }
         };
 
+        // "Seven Nation Army" (E - G - A - E)
+        var calleRiff2 = new NoteList
+        {
+            notes = new List<NewNote> {
+            N(F, InputDir.Left, 2),
+            N(F, InputDir.Left, 2),
+            N(Gs, InputDir.Up, 4),
+            N(G, InputDir.Up, 6),
+            N(Gs, InputDir.Up, 6),
+            N(A, InputDir.Right, 4),
+            N(As, InputDir.Right, 8)
+            }
+        };
+
         // "Smoke on the Water" (simplified riff with E-G-A)
-        var smokeRiff2 = new NoteList
+        var calleRiff3 = new NoteList
         {
             notes = new List<NewNote> {
              N(E, InputDir.Left, 4),
@@ -244,22 +261,52 @@ public class Enemy : MonoBehaviour
              N(A, InputDir.Up, 8)
             }
         };
-        // "Seven Nation Army" (E - G - A - E)
-        var armyRiff1 = new NoteList
+        var calleRiff4 = new NoteList
         {
             notes = new List<NewNote> {
-        N(E, InputDir.Left, 4),
-        N(G, InputDir.Right, 4),
-        N(A, InputDir.Right, 8),
-        N(G, InputDir.Up, 2),
-        N(A, InputDir.Up, 6),
-        N(G, InputDir.Left, 8)
+            N(E, InputDir.Left, 4),
+            N(G, InputDir.Up, 4),
+            N(G, InputDir.Up, 2),
+            N(A, InputDir.Right, 2),
+            N(A, InputDir.Right, 8),
+            N(As, InputDir.Right, 4),
+            N(E, InputDir.Left, 8)
+            }
+        };
 
-        }
+        var calleRiff5 = new NoteList
+        {
+            notes = new List<NewNote> {
+            N(G, InputDir.Left, 4),
+            N(Gs, InputDir.Up, 4),
+            N(A, InputDir.Right, 4),
+            N(As, InputDir.Right, 2),
+            N(As, InputDir.Right, 2),
+            N(F, InputDir.Up, 4),
+            N(E, InputDir.Left, 4),
+            N(A, InputDir.Right, 8),
+            }
+        };
+
+        var calleRiff6 = new NoteList
+        {
+            notes = new List<NewNote> {
+            N(B, InputDir.Right, 4),
+            N(As, InputDir.Up, 2),
+            N(As, InputDir.Up, 2),
+            N(B, InputDir.Right, 4),
+            N(Fs, InputDir.Left, 4),
+            N(A, InputDir.Right, 4),
+            N(G, InputDir.Right, 2),
+            N(Fs, InputDir.Up, 2),
+            N(E, InputDir.Left, 8)
+            }
         };
 
         // Now combine them into a battle
-        battle0 = new List<NoteList> { smokeRiff1};
-        //battle0 = new List<NoteList> { smokeRiff1, smokeRiff2, armyRiff1 };
+        battle0 = new List<NoteList> { calleRiff1, calleRiff2, calleRiff3 };
+        battle1 = new List<NoteList> { calleRiff4, calleRiff5, calleRiff6 };
     }
+
+    public int GetCurrentBattleNumber() { return currentBattleNumber; }
 }

@@ -74,6 +74,7 @@ public class CombatEvaluator : MonoBehaviour
             }
             else
             {
+                EventLogger.instance.LogEvent($"Missed during battle {Enemy.Instance.GetCurrentBattleNumber()}");
                 result = $"MISS ({diff:F3}s)";
                 bpmChange -= 4f;
             }
