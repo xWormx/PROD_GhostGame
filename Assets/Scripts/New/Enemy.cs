@@ -78,6 +78,7 @@ public class Enemy : MonoBehaviour
         if (noteIndex == 0 && waitTicks == 0)
         {
             bRiffFinished = false;
+            ClearCombatInputs();
         }
 
         NewNote n = currentBattle[battleIndex].notes[noteIndex];
@@ -92,21 +93,21 @@ public class Enemy : MonoBehaviour
         {
             case InputDir.Left:
                 {
-                    audioSource.volume = 0.7f;
+                    audioSource.volume = 0.5f;
                     audioSource.panStereo = -1f;
                     break;
                 }
 
             case InputDir.Right:
                 {
-                    audioSource.volume = 0.7f;
+                    audioSource.volume = 0.5f;
                     audioSource.panStereo = 1f;
                     break;
                 }
 
             case InputDir.Up:
                 {
-                    audioSource.volume = 0.35f;
+                    audioSource.volume = 0.3f;
                     audioSource.panStereo = 0f;
                     break;
                 }
@@ -121,6 +122,7 @@ public class Enemy : MonoBehaviour
         if (noteIndex >= currentBattle[battleIndex].notes.Count)
         {
             bRiffFinished = true;
+            CombatInputHandler.Instance.ClearCombatInputs();
             lastRiffPlayed = currentBattle[battleIndex];
             battleIndex++;
 
@@ -215,7 +217,6 @@ public class Enemy : MonoBehaviour
         waitTicks = 16;
         battleIndex = 0;
         noteIndex = 0;
-        ClearCombatInputs();
     }
 
     void InitBattles()
@@ -294,29 +295,12 @@ public class Enemy : MonoBehaviour
         var calleRiff6 = new NoteList
         {
             notes = new List<NewNote> {
-            N(B, InputDir.Right, 4),
-            N(As, InputDir.Up, 2),
-            N(As, InputDir.Up, 2),
+            N(B, InputDir.Right, 8),
             N(B, InputDir.Right, 4),
             N(Fs, InputDir.Left, 4),
             N(A, InputDir.Right, 4),
-            N(G, InputDir.Right, 2),
-            N(Fs, InputDir.Up, 2),
+            N(G, InputDir.Right, 4),
             N(E, InputDir.Left, 8)
-            }
-        };
-
-        var joelRiff1 = new NoteList
-        {
-            notes = new List<NewNote> {
-            N(E, InputDir.Left, 2),
-            N(A, InputDir.Up, 2),
-            N(G, InputDir.Right, 2),
-            N(G, InputDir.Right, 2),
-            N(G, InputDir.Right, 8),
-            N(A, InputDir.Up, 8),
-            N(E, InputDir.Left, 8)
-
             }
         };
 
@@ -351,7 +335,7 @@ public class Enemy : MonoBehaviour
         // Now combine them into a battle
         battle0 = new List<NoteList> { calleRiff1, calleRiff2, calleRiff3 };
         battle1 = new List<NoteList> { calleRiff4, calleRiff5, calleRiff6 };
-        battle2 = new List<NoteList> { joelRiff1, joelRiff2, joelRiff3 };
+        battle2 = new List<NoteList> { joelRiff2, joelRiff3 };
     }
 
     public int GetCurrentBattleNumber() { return currentBattleNumber; }

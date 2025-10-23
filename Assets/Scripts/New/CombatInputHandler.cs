@@ -112,7 +112,7 @@ public class CombatInputHandler : MonoBehaviour
                     }
                 case InputAccuracy.Miss:
                     {
-                        audioSource.volume = 1.0f;
+                        audioSource.volume = 0.2f;
                         audioSource.PlayOneShot(miss);
                         break;
                     }

@@ -37,6 +37,17 @@ public class CombatEvaluator : MonoBehaviour
 
     public void Evaluate(List<CombatInput> expected, List<CombatInput> player)
     {
+        if (!expected.Any() || !player.Any())
+        {
+            Debug.Log($"CombatEvaluator.Evaluate() skipped. Enemy notes: {expected.Count}, Player notes: {player.Count}");
+            Enemy.Instance.ClearCombatInputs();
+            CombatInputHandler.Instance.ClearCombatInputs();
+            return;
+        }
+
+        Enemy.Instance.ClearCombatInputs();
+
+
         timesCalled++;
         Debug.Log($"CombatEvaluator.Evaluate() called {timesCalled} times total.");
         float bpmChange = 0f;

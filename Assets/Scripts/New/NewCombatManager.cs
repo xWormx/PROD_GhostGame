@@ -52,6 +52,8 @@ public class NewCombatManager : MonoBehaviour
     private float winBPM = 200.0f;
     private float loseBPM = 60.0f;
 
+    private int enemiesDefeated = 0;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -89,13 +91,19 @@ public class NewCombatManager : MonoBehaviour
 
     public void RunCombat(int enemyNumber, float startingBPM = 100.0f, float winBPM = 200.0f, float loseBPM = 60.0f)
     {
+        if (bInCombat)
+        {
+            Debug.LogWarning("RunCombat called while already in combat — ignoring duplicate call.");
+            return;
+        }
+
         currentEnemyNumber = enemyNumber;
 
         switch(currentEnemyNumber)
         {
             case 0:
                 {
-                    currentWinSound = winSoundGoblin;
+                    currentWinSound = winSoundDemonMale;
                     break;
                 }
             case 1:
@@ -112,6 +120,8 @@ public class NewCombatManager : MonoBehaviour
 
         if (bFirstCombatEncounter && tutorialActive)
         {
+            bFirstCombatEncounter = false;
+            tutorialActive = false;
             audioSource.PlayOneShot(tutorial2);
             Invoke("TutorialDone", 23.0f);
             return;
@@ -131,7 +141,6 @@ public class NewCombatManager : MonoBehaviour
 
     private void TutorialDone()
     {
-        bFirstCombatEncounter = false;
         RunCombat(currentEnemyNumber, 100.0f, 200.0f, 60.0f);
     }
 
@@ -143,8 +152,6 @@ public class NewCombatManager : MonoBehaviour
             // Enemy's turn
             //Debug.Log("Enemy's Turn.");
             CurrentPhase = CombatPhase.EnemyTurn;
-            CombatInputHandler.Instance.ClearCombatInputs();
-            Enemy.Instance.ClearCombatInputs();
             OnEnemyTurnStart?.Invoke();
 
             while (!EnemySequenceFinished())
@@ -157,16 +164,16 @@ public class NewCombatManager : MonoBehaviour
             if (expectedResponses.Count == 0)
             {
                 Debug.LogWarning("No expected responses — skipping player turn and evaluation.");
+                Enemy.Instance.ClearCombatInputs();
+                CombatInputHandler.Instance.ClearCombatInputs();
+                Enemy.Instance.noteIndex = 0;
                 CurrentPhase = CombatPhase.EnemyTurn;
                 yield return null;
-                CombatInputHandler.Instance.ClearCombatInputs();
-                Enemy.Instance.ClearCombatInputs();
                 continue;
             }
 
             CurrentPhase = CombatPhase.PlayerCue;
             OnPlayerTurnStart?.Invoke();
-            CombatInputHandler.Instance.ClearCombatInputs();
 
             double turnStartTime = AudioSettings.dspTime;
 
@@ -199,24 +206,23 @@ public class NewCombatManager : MonoBehaviour
             // Evaluation
             //Debug.Log("Evaluating...");
             
-
+            /*
             List<CombatInput> expected = Enemy.Instance.GetExpectedResponses();
 
             if (expected.Count == 0)
             {
                 Debug.LogWarning("Skipping Evaluate() — no expected notes to compare.");
                 CurrentPhase = CombatPhase.EnemyTurn;
-                CombatInputHandler.Instance.ClearCombatInputs();
-                Enemy.Instance.ClearCombatInputs();
                 continue;
             }
+            */
 
             CurrentPhase = CombatPhase.Evaluate;
             OnEvaluateStart?.Invoke();
 
             List<CombatInput> player = CombatInputHandler.Instance.GetCombatInputs();
 
-            CombatEvaluator.Instance.Evaluate(expected, player);
+            CombatEvaluator.Instance.Evaluate(expectedResponses, player);
 
             // End of one round
             if (BeatMachine.Instance != null)
@@ -239,8 +245,13 @@ public class NewCombatManager : MonoBehaviour
                     BeatMachine.Instance.Run(false);
                     audioSource.PlayOneShot(currentWinSound);
 
-                    CombatInputHandler.Instance.ClearCombatInputs();
-                    Enemy.Instance.ClearCombatInputs();
+                    enemiesDefeated++;
+
+                    if (enemiesDefeated >= 2)
+                    {
+                        Invoke("YouWin", 2f);
+                    }
+
                     yield break;
                 }
 
@@ -252,8 +263,6 @@ public class NewCombatManager : MonoBehaviour
                     BeatMachine.Instance.Run(false);
                     audioSource.PlayOneShot(loseSound);
 
-                    CombatInputHandler.Instance.ClearCombatInputs();
-                    Enemy.Instance.ClearCombatInputs();
                     yield break;
                 }
             }
@@ -271,12 +280,16 @@ public class NewCombatManager : MonoBehaviour
 
             //Debug.Log($"Scheduling next enemy round: currentTick={currentTick}, ticksToNextBeat={ticksToNextBeat}, waitTicks={waitTicks}");
 
-            CombatInputHandler.Instance.ClearCombatInputs();
-            Enemy.Instance.ClearCombatInputs();
-
             yield return null; // yield one frame
 
         }
+    }
+
+    private void YouWin()
+    {
+        playerCanMove = false;
+        audioSource.PlayOneShot(winSoundGoblin);
+        GameLevelHandler.Instance.SetLevelState(LevelState.EndGame);
     }
 
     private bool EnemySequenceFinished()

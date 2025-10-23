@@ -5492,7 +5492,7 @@ MonoBehaviour:
   OnEvaluateStart:
     m_PersistentCalls:
       m_Calls: []
-  tutorialActive: 0
+  tutorialActive: 1
   winSoundDemonMale: {fileID: 8300000, guid: f0fb69a1da8861b41956bf7829436705, type: 3}
   winSoundDemonFemale: {fileID: 8300000, guid: bc4f9015101c5d34c94c7ed68d0e5c4b, type: 3}
   winSoundGoblin: {fileID: 8300000, guid: a55ec2e8c6366b146a2e0124b36b6466, type: 3}
