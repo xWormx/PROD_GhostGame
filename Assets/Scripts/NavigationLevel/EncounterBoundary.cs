@@ -6,7 +6,7 @@ public class EncounterBoundary : MonoBehaviour
     [SerializeField] private float startingBPM = 100.0f;
     [SerializeField] private float winBPM = 200.0f;
     [SerializeField] private float loseBPM = 60.0f;
-    [SerializeField] private float respawnTime = 60.0f;
+    [SerializeField] private float respawnTime = 180.0f;
     [SerializeField] private GameObject parent;
 
     private bool bIsActive = true;

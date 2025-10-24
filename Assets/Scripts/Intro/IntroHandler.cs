@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEditor.Actions;
-using UnityEngine.Rendering;
 using UnityEngine.Audio;
 
 /*

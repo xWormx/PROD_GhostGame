@@ -81,18 +81,18 @@ public class CombatEvaluator : MonoBehaviour
             if (diff <= perfectWindow)
             {
                 result = $"PERFECT ({diff:F3}s)";
-                bpmChange += 4f;
+                bpmChange += 6f;
             }
             else if (diff <= goodWindow)
             {
                 result = $"GOOD ({diff:F3}s)";
-                bpmChange += 2f;
+                bpmChange += 4f;
             }
             else
             {
                 EventLogger.instance.LogEvent($"Missed during battle {Enemy.Instance.GetCurrentBattleNumber()}");
                 result = $"MISS ({diff:F3}s)";
-                bpmChange -= 4f;
+                bpmChange -= 6f;
             }
 
             string timing = bestMatch.DSPTime < e.DSPTime ? "EARLY" : "LATE";
@@ -104,7 +104,7 @@ public class CombatEvaluator : MonoBehaviour
         foreach (var extra in unmatchedPlayerInputs)
         {
             //Debug.Log($"Extra input: {extra.Direction} at {extra.DSPTime:F3}s (no matching note)");
-            bpmChange -= 4f;
+            bpmChange -= 6f;
             EventLogger.instance.LogEvent($"Non-matching input '{extra.Direction}' during battle {Enemy.Instance.GetCurrentBattleNumber()}");
             Debug.Log($"BPM down. {unmatchedPlayerInputs.Count()} umatched inputs.");
         }

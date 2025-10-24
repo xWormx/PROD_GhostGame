@@ -61,7 +61,7 @@ public class NewCombatManager : MonoBehaviour
         if (tutorialActive)
         {
             audioSource.PlayOneShot(tutorial1);
-            Invoke("CanMove", 16.0f);
+            Invoke("CanMove", 33.0f);
         }
         else
         {
@@ -247,7 +247,7 @@ public class NewCombatManager : MonoBehaviour
 
                     enemiesDefeated++;
 
-                    if (enemiesDefeated >= 2)
+                    if (enemiesDefeated >= 3)
                     {
                         Invoke("YouWin", 2f);
                     }
